@@ -14,7 +14,7 @@ VALUES (2, 2, 'Cartão de Crédito', 'Inscrito');
 
 /* Maratonas */
 INSERT INTO maratona (criador, nome, local, data_inicio,data_final, distancia, status, descricao, regras, valor, tipo_terreno, clima_esperado)
-VALUES (1, 'Maratona Internacional de São Paulo', 'São Paulo, SP', '2024-04-12','2025-11-12',  '42.195', 'Aberta', 'Uma das maiores provas do Brasil', 'Uso de chip e número obrigatório.', 180.00, 'Asfalto', 'Temperado');
+VALUES (1, 'Maratona Internacional de São Paulo', 'São Paulo, SP', '2024-04-12','2025-11-12',  '42.195', 'Aberta para inscrição', 'Uma das maiores provas do Brasil', 'Uso de chip e número obrigatório.', 180.00, 'Asfalto', 'Temperado');
 
 /* Participações */
 --dados da participação da terceira Inscrição que ja conclui a maratona e ela está fechada.
