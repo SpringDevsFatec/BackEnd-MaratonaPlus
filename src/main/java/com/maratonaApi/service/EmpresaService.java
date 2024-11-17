@@ -2,7 +2,6 @@ package com.maratonaApi.service;
 
 import java.util.List;
 
-import com.maratonaApi.model.Corredor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,13 @@ import com.maratonaApi.model.repository.EmpresasRepository;
 
 @Service
 public class EmpresaService {
-	@Autowired
-	private EmpresasRepository empresaRepository;
-	
+
+	private final EmpresasRepository empresaRepository;
+
+	public EmpresaService(EmpresasRepository empresaRepository) {
+		this.empresaRepository = empresaRepository;
+	}
+
 	// Obter todas as empresas
 	public List<Empresa> obterTodo(){
 		return empresaRepository.findAll();

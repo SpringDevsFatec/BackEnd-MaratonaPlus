@@ -18,7 +18,7 @@ public class CorredorController {
     @Autowired
     CorredorService corredorService;
     
-    // chama classe service para listar todos os Corredors
+    // chama classe service para listar todos os Corredores
     @GetMapping
     public List<Corredor> listAll() {
         return corredorService.obterTodos();
@@ -47,7 +47,7 @@ public class CorredorController {
         return corredorService.update(corredor, id);
     }
     
-    // pega parametro da requisição e manda para classe servece afim de deletar um Corredor
+    // pega parameter da requisição e manda para classe service a fim de deletar um Corredor
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Integer id) {
         corredorService.delete(id);
