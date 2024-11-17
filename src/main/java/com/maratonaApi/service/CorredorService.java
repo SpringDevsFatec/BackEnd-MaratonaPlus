@@ -23,29 +23,16 @@ public class CorredorService {
 	public Corredor read(Integer idCorredor) {
 		return corredorRepository.findById(idCorredor).orElse(null);
 	}
-	
-	//Verificar se um corredor existe pelo email e senha
-	public String verificarLoginCorredor(Corredor corredor, String email, String senha) {
-	    Corredor corredorEmail = corredorRepository.findByEmail(email);
-	    
-	    if (corredorEmail != null && corredorEmail.getSenha().equals(senha)) {
-	        return "Login bem-sucedido";
-	    } else {
-	        return "Erro, email ou senha incorretos";
-	    }
+
+	public Integer verificarLoginCorredorId(String email, String senha) {
+		Corredor corredorEmail = corredorRepository.findByEmail(email);
+
+		if (corredorEmail != null && corredorEmail.getSenha().equals(senha)) {
+			return corredorEmail.getIdCorredor();  // Retorna o id do Corredor encontrado
+		}
+		return -1;  // Retorna -1 se o login falhar
 	}
-	
-	//Verificar login da empresa e retornar o id_empresa
-	public Integer verificarLoginCorredorId(Corredor corredor, String email, String senha) {
-	    Corredor corredorEmail = corredorRepository.findByEmail(email);
-	    int idCorredor = -1;
-	    
-	    if (corredorEmail != null && corredorEmail.getSenha().equals(senha)) {
-	        return corredor.getIdCorredor();
-	    }
-	    return idCorredor;
-	}
-	
+
 	//Lista corredores de um determinada maratona
 	
 	

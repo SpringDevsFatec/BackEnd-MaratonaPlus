@@ -2,16 +2,9 @@ package com.maratonaApi.controller;
 
 import java.util.List;
 
+import com.maratonaApi.model.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.maratonaApi.model.Corredor;
 import com.maratonaApi.service.CorredorService;
@@ -42,7 +35,12 @@ public class CorredorController {
     public Corredor insert(@RequestBody Corredor corredor) {
         return corredorService.insert(corredor);
     }
-    
+
+    @PostMapping("/login")
+    public Integer login(@RequestBody LoginRequest loginRequest) {
+        return corredorService.verificarLoginCorredorId(loginRequest.getEmail(), loginRequest.getSenha());
+    }
+
     // pega corpo da requisição e manada para classe service para atualizar
     @PutMapping("/{id}")
     public Corredor update(@RequestBody Corredor corredor, @PathVariable Integer id) {
@@ -54,11 +52,5 @@ public class CorredorController {
     public String delete(@PathVariable Integer id) {
         corredorService.delete(id);
         return "Corredor excluído com sucesso!";
-    }
-    
-    // send 1 for class service to search toys that are in destaque gastando o english 
-    @PostMapping("/login/{email}&{senha}")
-    public String login(@RequestBody Corredor corredor, @PathVariable String email, String senha) {
-        return corredorService.verificarLoginCorredor(corredor, email, senha);
     }
 }

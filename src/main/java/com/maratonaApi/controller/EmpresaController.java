@@ -1,6 +1,7 @@
 package com.maratonaApi.controller;
 import java.util.List;
 
+import com.maratonaApi.model.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +42,13 @@ public class EmpresaController {
     public Empresa insert(@RequestBody Empresa empresa) {
         return empresaService.insert(empresa);
     }
-    
+
+    // send 1 for class service to search toys that are in destaque gastando o english
+    @PostMapping("/login")
+    public Integer login(@RequestBody LoginRequest loginRequest) {
+        return empresaService.verificarLoginEmpresaId(loginRequest.getEmail(), loginRequest.getSenha());
+    }
+
     // pega corpo da requisição e manada para classe service para atualizar
     @PutMapping("/{id}")
     public Empresa update(@RequestBody Empresa empresa, @PathVariable Integer id) {
@@ -53,11 +60,5 @@ public class EmpresaController {
     public String delete(@PathVariable Integer id) {
         empresaService.delete(id);
         return "Empresa excluído com sucesso!";
-    }
-    
-    // send 1 for class service to search toys that are in destaque gastando o english 
-    @PostMapping("/login/{email}")
-    public String login(@RequestBody Empresa empresa, @PathVariable String email, String senha) {
-        return empresaService.verificarLoginEmpresa(empresa, email, senha);
     }
 }
