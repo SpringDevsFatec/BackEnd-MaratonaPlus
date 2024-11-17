@@ -1,22 +1,17 @@
 /* Corredores */
-INSERT INTO corredor (nome, telefone, email, senha, data_nasc, cpf, endereco, genero, url_foto, pais_origem)
-VALUES ('Ana Costa', '11999998888', 'ana@gmail.com', '123', '1988-08-22', '321.654.987-00', 'Rua dos Jardins, 200, São Paulo, SP', 'Feminino', 'http://example.com/fotos/ana.jpg', 'Brasil');
+INSERT INTO corredor (data_nasc, cpf, email, endereco, genero, nome, pais_origem, senha, telefone, url_foto) VALUES ('1988-08-22', '321.654.987-00', 'ana@gmail.com', 'Rua dos Jardins, 200, São Paulo, SP', 'Feminino', 'Ana Costa', 'Brasil', '123', '11999998888', 'http://example.com/fotos/ana.jpg');
 
 /* Empresas */
 -- maratona da empresa cb@gmail.com
-INSERT INTO empresa (nome, telefone, email, usuario, senha, cnpj, local, url_logo) 
-VALUES ('Corridas do Brasil', '21911223344', 'cb@gmail.com', 'Fernanda Melo', '123', '33.222.111/0001-12', 'Av. Paulista, 1000, São Paulo, SP', 'http://example.com/logo/corridas.jpg');
+INSERT INTO empresa (data_criacao, cnpj, email, local, nome, senha, telefone, url_logo, usuario) VALUES (NOW(), '33.222.111/0001-12', 'cb@gmail.com', 'Av. Paulista, 1000, São Paulo, SP', 'Corridas do Brasil', '123', '21911223344', 'http://example.com/logo/corridas.jpg', 'Fernanda Melo');
 
-/* Incrições */
+/* Inscrições */
 -- maratona Corrida da Primavera pelo me@gmail.com podendo participar mas prescisa abrir com a empresa
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status)
-VALUES (2, 2, 'Cartão de Crédito', 'Inscrito');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (2, 2, NOW(), 'Cartão de Crédito', 'Inscrito');
 
 /* Maratonas */
-INSERT INTO maratona (criador, nome, local, data_inicio,data_final, distancia, status, descricao, regras, valor, tipo_terreno, clima_esperado)
-VALUES (1, 'Maratona Internacional de São Paulo', 'São Paulo, SP', '2024-04-12','2025-11-12',  '42.195', 'Aberta para inscrição', 'Uma das maiores provas do Brasil', 'Uso de chip e número obrigatório.', 180.00, 'Asfalto', 'Temperado');
+INSERT INTO maratona (criador, limite_participantes, valor, clima_esperado, data_final, data_inicio, descricao, regras, distancia, local, nome, nome_criador, status, tipo_terreno) VALUES (1, 10, 180.00, 'Temperado', '2025-11-12', '2024-04-12', 'Uma das maiores provas do Brasil', 'Uso de chip e número obrigatório.', '42.195', 'São Paulo, SP', 'Maratona Internacional de São Paulo', 'Fernanda Melo', 'Aberta para inscrição', 'Asfalto');
 
 /* Participações */
---dados da participação da terceira Inscrição que ja conclui a maratona e ela está fechada.
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos)
-VALUES (3, 'Desativado', '4:00:00', '08:00:00', '12:00:00', 9000);
+-- dados da participação da terceira Inscrição que ja conclui a maratona e ela está fechada.
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'Desativado', '4:00:00', '08:00:00', '12:00:00', 9000);

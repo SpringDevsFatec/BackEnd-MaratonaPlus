@@ -3,10 +3,12 @@ package com.maratonaApi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Inscricao;
 import com.maratonaApi.model.repository.InscricaoRepository;
 
+@Service
 public class InscricaoService {
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
@@ -17,8 +19,8 @@ public class InscricaoService {
 	}
 	
 	// Ler uma inscricao pelo ID
-	public Inscricao read(Integer id) {
-		return inscricaoRepository.findById(id).orElse(null);
+	public Inscricao read(Integer idInscricao) {
+		return inscricaoRepository.findById(idInscricao).orElse(null);
 	}
 	
 	// Inserir
@@ -27,8 +29,8 @@ public class InscricaoService {
 	}
 	
 	// Atualizar
-	public Inscricao update(Inscricao inscricao, Integer id) {
-		Inscricao inscricaoUpdate = inscricaoRepository.findById(id).orElse(null);
+	public Inscricao update(Inscricao inscricao, Integer idInscricao) {
+		Inscricao inscricaoUpdate = inscricaoRepository.findById(idInscricao).orElse(null);
 		if (inscricaoUpdate != null) {
 			inscricaoUpdate.setIdInscricao(inscricao.getIdInscricao());
 			inscricaoUpdate.setIdCorredor(inscricao.getIdCorredor());
@@ -44,7 +46,7 @@ public class InscricaoService {
 	
 	
 	// Deletar
-	public void deleteById(Integer id) {
-		inscricaoRepository.deleteById(id);
+	public void deleteById(Integer idInscricao) {
+		inscricaoRepository.deleteById(idInscricao);
 	}	
 }

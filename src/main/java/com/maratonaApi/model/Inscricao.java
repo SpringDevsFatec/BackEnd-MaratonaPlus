@@ -20,9 +20,11 @@ public class Inscricao {
     private int idCorredor;
 	@Column(name = "id_maratona")
     private int idMaratona;
+	@Column(name = "data_hora")
     private Date dataHora;
     @Column(name = "forma_pagamento")
     private String formaPagamento;
+    @Column(name = "status")
     private String status;
 
     public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, Date dataHora, String status) {

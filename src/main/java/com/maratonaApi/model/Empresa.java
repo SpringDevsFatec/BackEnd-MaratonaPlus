@@ -16,12 +16,19 @@ public class Empresa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_empresa")
 	private int idEmpresa;
+	@Column(name = "nome")
     private String nome;
+	@Column(name = "telefone")
     private String telefone;
+	@Column(name = "email")
     private String email;
+	@Column(name = "usuario")
     private String usuario;
+	@Column(name = "senha")
     private String senha;
+	@Column(name = "cnpj")
     private String cnpj;
+	@Column(name = "local")
     private String local;
     @Column(name = "url_logo")
     private String urlLogo;

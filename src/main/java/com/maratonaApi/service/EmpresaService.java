@@ -3,10 +3,12 @@ package com.maratonaApi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Empresa;
 import com.maratonaApi.model.repository.EmpresasRepository;
 
+@Service
 public class EmpresaService {
 	@Autowired
 	private EmpresasRepository empresaRepository;
@@ -17,8 +19,8 @@ public class EmpresaService {
 	}
 	
 	// Ler uma empresa pelo ID
-	public Empresa read(Integer id) {
-		return empresaRepository.findById(id).orElse(null);
+	public Empresa read(Integer idEmpresa) {
+		return empresaRepository.findById(idEmpresa).orElse(null);
 	}
 	
 	//Verificar se um corredor existe pelo email e senha
@@ -49,8 +51,8 @@ public class EmpresaService {
 	}
 	
 	// Atualizar
-	public Empresa update(Empresa empresa, Integer id) {
-		Empresa empresaUpdate = empresaRepository.findById(id).orElse(null);
+	public Empresa update(Empresa empresa, Integer idEmpresa) {
+		Empresa empresaUpdate = empresaRepository.findById(idEmpresa).orElse(null);
 		if (empresaUpdate != null) {
 			empresaUpdate.setNome(empresa.getNome());
 			empresaUpdate.setTelefone(empresa.getTelefone());
@@ -65,7 +67,7 @@ public class EmpresaService {
 		return empresaUpdate;
 	}
 
-	public void delete(Integer id) {
-		empresaRepository.deleteById(id);
+	public void delete(Integer idEmpresa) {
+		empresaRepository.deleteById(idEmpresa);
 	}
 }

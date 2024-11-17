@@ -34,8 +34,8 @@ public class ParticipacaoController {
 
     // chama classe service para listar todos as Participacaos por status
     @GetMapping("/{status}")
-    public List<Participacao> listAllStatus(@PathVariable String status) {
-        return participacaoService.listAllStatus(status);
+    public List<Participacao> listAllStatus(@PathVariable String statusConclusao) {
+        return participacaoService.listAllStatus(statusConclusao);
     }
 
     // pega dado id e manda para classe service buscar

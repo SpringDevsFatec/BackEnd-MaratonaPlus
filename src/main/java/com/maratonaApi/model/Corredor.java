@@ -16,18 +16,25 @@ public class Corredor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_corredor")
 	private int idCorredor;
+	@Column(name = "nome")
     private String nome;
+	@Column(name = "telefone")
     private String telefone;
+	@Column(name = "email")
     private String email;
+	@Column(name = "senha")
     private String senha;
     @Column(name = "data_nasc")
     private Date dataNascimento;
+    @Column(name = "cpf")
     private String cpf;
+    @Column(name = "endereco")
     private String endereco;
     @Column(name = "url_foto")
     private String urlFoto;
     @Column(name = "pais_origem")
     private String paisOrigem;
+    @Column(name = "genero")
     private String genero;
     
 	@Override

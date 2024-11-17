@@ -3,22 +3,26 @@ package com.maratonaApi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Maratona;
-import com.maratonaApi.model.repository.InscricaoRepository;
+//import com.maratonaApi.model.repository.InscricaoRepository;
 import com.maratonaApi.model.repository.MaratonasRepository;
 
+@Service
 public class MaratonaService {
 	@Autowired
 	private MaratonasRepository maratonaRepository;
 	
 	@Autowired
-    private InscricaoRepository inscricaoRepository;
+    //private InscricaoRepository inscricaoRepository;
 	
+	/*
 	//Obter maratonas concluidas de um determinado corredor
     public List<Maratona> obterMaratonasConcluidasPorCorredor(Integer idCorredor) {
         return inscricaoRepository.findMaratonasByConcluidas(idCorredor);
     }
+    */
 	
 	// Obter todas as maratonas
 	public List<Maratona> obterTodos(){
@@ -26,15 +30,16 @@ public class MaratonaService {
 	}
 	
 	// Ler uma maratona pelo ID
-	public Maratona read(Integer id) {
-		return maratonaRepository.findById(id).orElse(null);
+	public Maratona read(Integer idMaratona) {
+		return maratonaRepository.findById(idMaratona).orElse(null);
 	}
 	
+	/*
 	//Lista maratonas abertas de um determinado corredor
 	public List<Maratona> obterMaratonasAbertasPorCorredor(Integer idCorredor) {
 		return inscricaoRepository.findMaratonasByAbertas(idCorredor);
 	}
-	
+	*/
 	
 	//lista maratonas com base no status
 		
@@ -48,8 +53,8 @@ public class MaratonaService {
 	}
 	
 	// Atualizar
-	public Maratona update(Maratona maratona, Integer id) {
-		Maratona maratonaUpdate = maratonaRepository.findById(id).orElse(null);
+	public Maratona update(Maratona maratona, Integer idMaratona) {
+		Maratona maratonaUpdate = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratonaUpdate != null) {
 			maratonaUpdate.setCriador(maratona.getCriador());
 			maratonaUpdate.setNome(maratona.getNome());
@@ -84,8 +89,8 @@ public class MaratonaService {
 	}
 	
 	// Deletar
-	public void deleteById(Integer id) {
-		maratonaRepository.deleteById(id);
+	public void deleteById(Integer idMaratona) {
+		maratonaRepository.deleteById(idMaratona);
 	}
 	
 	

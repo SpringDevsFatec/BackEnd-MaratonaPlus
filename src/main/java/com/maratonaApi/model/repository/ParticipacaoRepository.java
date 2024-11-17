@@ -7,5 +7,5 @@ import com.maratonaApi.model.Participacao;
 
 public interface ParticipacaoRepository extends JpaRepository<Participacao, Integer> {
 	
-	List<Participacao> findByStatus(String status);
+	List<Participacao> findByStatusConclusao(String statusConclusao);
 }

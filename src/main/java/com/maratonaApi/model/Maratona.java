@@ -15,23 +15,31 @@ public class Maratona {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_maratona")
     private int idMaratona;
+	@Column(name = "criador")
     private int criador;
+	@Column(name = "nome")
     private String nome;
+	@Column(name = "local")
     private String local;
     @Column(name = "data_inicio")
     private String dataInicio;
     @Column(name = "data_final")
     private String dataFinal;
+    @Column(name = "status")
     private String status;
+    @Column(name = "distancia")
     private String distancia;
+    @Column(name = "descricao")
     private String descricao;
     @Column(name = "limite_participantes")
     private int limiteParticipantes;
+    @Column(name = "regras")
     private String regras;
+    @Column(name = "valor")
     private float valor;
     @Column(name = "tipo_terreno")
     private String tipoTerreno;
-    @Column(name = "cliam_esperado")
+    @Column(name = "clima_esperado")
     private String climaEsperado;
     @Column(name = "nome_criador")
     private String nomeCriador;

@@ -21,13 +21,13 @@ public class ParticipacaoService {
     }
 
     // busca tudo por status
-    public List<Participacao> listAllStatus(String status) {
-        return participacaoRepository.findByStatus(status);
+    public List<Participacao> listAllStatus(String statusConclusao) {
+        return participacaoRepository.findByStatusConclusao(statusConclusao);
     }
 
     // busca por id
-    public Participacao getById(Integer id) {
-        return participacaoRepository.findById(id).orElse(null);
+    public Participacao getById(Integer idParticipacao) {
+        return participacaoRepository.findById(idParticipacao).orElse(null);
     }
 
     // busca o id_participacao baseado no id_inscricao
@@ -36,8 +36,8 @@ public class ParticipacaoService {
     }
 
     // busca tempo inicial da participacao por id
-    public Participacao getTempoInicioalById(Integer id) {
-        return participacaoRepository.findById(id).orElse(null);
+    public Participacao getTempoInicioalById(Integer idParticipacao) {
+        return participacaoRepository.findById(idParticipacao).orElse(null);
     }
 
     // cadastra novo participacao
@@ -46,8 +46,8 @@ public class ParticipacaoService {
     }
 
     // atualiza participacao
-    public Participacao update(Participacao participacao, Integer id) {
-        Participacao participacaoUpdate = participacaoRepository.findById(id).orElse(null);
+    public Participacao update(Participacao participacao, Integer idParticipacao) {
+        Participacao participacaoUpdate = participacaoRepository.findById(idParticipacao).orElse(null);
         if (participacaoUpdate != null) {
             participacaoUpdate.setIdInscricao(participacao.getIdInscricao());
             participacaoUpdate.setStatusConclusao(participacao.getStatusConclusao());
@@ -61,8 +61,8 @@ public class ParticipacaoService {
     }
 
     // atualiza status participacao
-    public Participacao updateStatus(Participacao participacao, Integer id) {
-        Participacao participacaoUpdate = participacaoRepository.findById(id).orElse(null);
+    public Participacao updateStatus(Participacao participacao, Integer idParticipacao) {
+        Participacao participacaoUpdate = participacaoRepository.findById(idParticipacao).orElse(null);
         if (participacaoUpdate != null) {
             participacaoUpdate.setStatusConclusao(participacao.getStatusConclusao());
             participacaoUpdate.setTempoRegistrado(participacao.getTempoRegistrado());
@@ -74,7 +74,7 @@ public class ParticipacaoService {
     }
 
     // delete participacao
-    public void delete(Integer id) {
-        participacaoRepository.deleteById(id);
+    public void delete(Integer idParticipacao) {
+        participacaoRepository.deleteById(idParticipacao);
     }
 }

@@ -3,10 +3,12 @@ package com.maratonaApi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Corredor;
 import com.maratonaApi.model.repository.CorredoresRepository;
 
+@Service
 public class CorredorService {
 	
 	@Autowired
@@ -18,8 +20,8 @@ public class CorredorService {
 	}
 	
 	// Ler um corredor pelo ID
-	public Corredor read(Integer id) {
-		return corredorRepository.findById(id).orElse(null);
+	public Corredor read(Integer idCorredor) {
+		return corredorRepository.findById(idCorredor).orElse(null);
 	}
 	
 	//Verificar se um corredor existe pelo email e senha
@@ -62,8 +64,8 @@ public class CorredorService {
 	}
 	
 	// Atualizar dados do corredor
-	public Corredor update(Corredor corredor, Integer id){
-		Corredor corredorUpdate = corredorRepository.findById(id).orElse(null);
+	public Corredor update(Corredor corredor, Integer idCorredor){
+		Corredor corredorUpdate = corredorRepository.findById(idCorredor).orElse(null);
 		if (corredorUpdate != null) {
 			corredorUpdate.setNome(corredor.getNome());
 			corredorUpdate.setTelefone(corredor.getTelefone());
@@ -80,7 +82,7 @@ public class CorredorService {
 	}
 	
 	// Deletar um corredor
-	public void delete(Integer id) {
-		corredorRepository.deleteById(id);
+	public void delete(Integer idCorredor) {
+		corredorRepository.deleteById(idCorredor);
 	}
 }

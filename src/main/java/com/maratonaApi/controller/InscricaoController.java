@@ -18,7 +18,7 @@ import com.maratonaApi.model.Inscricao;
 import com.maratonaApi.service.InscricaoService;
 
 @RestController
-@RequestMapping("/api/categorias")
+@RequestMapping("/api/inscricoes")
 @CrossOrigin(origins = "http://192.168.0.30:8081")
 public class InscricaoController {
 	

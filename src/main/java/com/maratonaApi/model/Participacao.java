@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 public class Participacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_participacao")
 	private int idParticipacao;
 	@Column(name = "id_inscricao")
     private int idInscricao;
