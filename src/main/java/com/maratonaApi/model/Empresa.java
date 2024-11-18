@@ -2,12 +2,7 @@ package com.maratonaApi.model;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "empresa")
@@ -32,8 +27,13 @@ public class Empresa {
     private String local;
     @Column(name = "url_logo")
     private String urlLogo;
-    @Column(name = "data_criacao")
+    @Column(name = "data_criacao", nullable = false, updatable = false)
     private Timestamp dataCriacao;
+
+    @PrePersist
+    protected void onCreate() {
+        this.dataCriacao = new Timestamp(System.currentTimeMillis());
+    }
 
 
     public Empresa(int idEmpresa, String nome, String telefone, String email, String usuario, String senha, String cnpj, String local, String urlLogo, Timestamp dataCriacao) {
