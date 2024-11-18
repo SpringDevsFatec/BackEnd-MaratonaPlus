@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Maratona;
-//import com.maratonaApi.model.repository.InscricaoRepository;
+import com.maratonaApi.model.repository.InscricaoRepository;
 import com.maratonaApi.model.repository.MaratonasRepository;
 
 @Service
@@ -15,7 +15,7 @@ public class MaratonaService {
 	private MaratonasRepository maratonaRepository;
 	
 	@Autowired
-    //private InscricaoRepository inscricaoRepository;
+    private InscricaoRepository inscricaoRepository;
 	
 	/*
 	//Obter maratonas concluidas de um determinado corredor
@@ -30,16 +30,12 @@ public class MaratonaService {
 	}
 	
 	// Ler uma maratona pelo ID
-	public Maratona read(Integer idMaratona) {
-		return maratonaRepository.findById(idMaratona).orElse(null);
-	}
-	
-	/*
+	public Maratona read(Integer id) { return maratonaRepository.findById(id).orElse(null); }
+
 	//Lista maratonas abertas de um determinado corredor
 	public List<Maratona> obterMaratonasAbertasPorCorredor(Integer idCorredor) {
-		return inscricaoRepository.findMaratonasByAbertas(idCorredor);
+		return inscricaoRepository.findMaratonasAbertasByIdCorredor(idCorredor);
 	}
-	*/
 	
 	//lista maratonas com base no status
 		
@@ -70,7 +66,6 @@ public class MaratonaService {
 			maratonaUpdate.setValor(maratona.getValor());
 			maratonaUpdate.setTipoTerreno(maratona.getTipoTerreno());
 			maratonaUpdate.setClimaEsperado(maratona.getClimaEsperado());
-			maratonaUpdate.setNomeCriador(maratona.getNomeCriador());
 			return maratonaRepository.save(maratonaUpdate);
 			
 		};
