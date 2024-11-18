@@ -17,25 +17,25 @@ public class MaratonaService {
 	@Autowired
     private InscricaoRepository inscricaoRepository;
 	
-	/*
-	//Obter maratonas concluidas de um determinado corredor
-    public List<Maratona> obterMaratonasConcluidasPorCorredor(Integer idCorredor) {
-        return inscricaoRepository.findMaratonasByConcluidas(idCorredor);
-    }
-    */
-	
 	// Obter todas as maratonas
 	public List<Maratona> obterTodos(){
 		return maratonaRepository.findAll();
+	}
+
+	//Obter maratonas concluidas de um determinado corredor
+	public List<Maratona> obterConcluidasPorCorredor(Integer idCorredor) {
+		return inscricaoRepository.findMaratonasConcluidasByIdCorredor(idCorredor);
+	}
+
+	//Lista maratonas abertas de um determinado corredor
+	public List<Maratona> obterAbertasPorCorredor(Integer idCorredor) {
+		return inscricaoRepository.findMaratonasAbertasByIdCorredor(idCorredor);
 	}
 	
 	// Ler uma maratona pelo ID
 	public Maratona read(Integer id) { return maratonaRepository.findById(id).orElse(null); }
 
-	//Lista maratonas abertas de um determinado corredor
-	public List<Maratona> obterMaratonasAbertasPorCorredor(Integer idCorredor) {
-		return inscricaoRepository.findMaratonasAbertasByIdCorredor(idCorredor);
-	}
+
 	
 	//lista maratonas com base no status
 		

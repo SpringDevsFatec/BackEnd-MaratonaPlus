@@ -38,9 +38,15 @@ public class MaratonaController {
     }
 
     //obter maratonas abertas por id do corredor
-    @GetMapping("/maratonas-abertas/{idCorredor}")
-    public List<Maratona> listAllMaratonasAbertasByCorredor(@PathVariable Integer idCorredor) {
-        return maratonaService.obterMaratonasAbertasPorCorredor(idCorredor);
+    @GetMapping("/abertas-por-corredor/{idCorredor}")
+    public List<Maratona> listAbertasByCorredor(@PathVariable Integer idCorredor) {
+        return maratonaService.obterAbertasPorCorredor(idCorredor);
+    }
+
+    //obter maratonas concluidas por id do corredor
+    @GetMapping("/concluidas-por-corredor/{idCorredor}")
+    public List<Maratona> listConcluidasByCorredor(@PathVariable Integer idCorredor) {
+        return maratonaService.obterConcluidasPorCorredor(idCorredor);
     }
 
     // pega dados do corpo da requisição e passa a classe service para inserir
