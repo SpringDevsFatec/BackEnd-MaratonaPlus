@@ -37,6 +37,12 @@ public class MaratonaController {
         return maratonaService.read(id);
     }
 
+    //obter maratonas abertas por id do corredor
+    @GetMapping("/maratonas-abertas/{idCorredor}")
+    public List<Maratona> listAllMaratonasAbertasByCorredor(@PathVariable Integer idCorredor) {
+        return maratonaService.obterMaratonasAbertasPorCorredor(idCorredor);
+    }
+
     // pega dados do corpo da requisição e passa a classe service para inserir
     @PostMapping
     public Maratona insert(@RequestBody Maratona maratona) {
