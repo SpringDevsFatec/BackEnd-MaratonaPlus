@@ -23,7 +23,27 @@ public class CorredorController {
     public List<Corredor> listAll() {
         return corredorService.obterTodos();
     }
-    
+
+    // chama classe service para listar todos os Corredores
+    @GetMapping("/inscritos/{idMaratona}")
+    public List<Corredor> listCorredoresInscritos(@PathVariable Integer idMaratona) {
+        return corredorService.obterCorredoresInscritosPorMaratona(idMaratona);
+    }
+
+    // chama classe service para listar todos os Corredores
+    @GetMapping("/participando/{idMaratona}")
+    public List<Corredor> listCorredoresParticipantes(@PathVariable Integer idMaratona) {
+        return corredorService.obterCorredoresParticipadoPorMaratona(idMaratona);
+    }
+
+    // chama classe service para listar todos os Corredores
+    @GetMapping("/concluiram/{idMaratona}")
+    public List<Corredor> listCorredoresConcluidos(@PathVariable Integer idMaratona) {
+        return corredorService.obterCorredoresConcluiramPorMaratona(idMaratona);
+    }
+
+
+
     // pega dado id e manda para classe service buscar
     @GetMapping("/{id}")
     public Corredor getById(@PathVariable Integer id) {
@@ -36,6 +56,7 @@ public class CorredorController {
         return corredorService.insert(corredor);
     }
 
+    //pega as credencias de login e passa para o metodo verificar
     @PostMapping("/login")
     public Integer login(@RequestBody LoginRequest loginRequest) {
         return corredorService.verificarLoginCorredorId(loginRequest.getEmail(), loginRequest.getSenha());
