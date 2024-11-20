@@ -6,11 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.maratonaApi.model.Maratona;
 
 public interface MaratonasRepository extends JpaRepository<Maratona, Integer> {
-	
-	//lista maratonas com base no status
-	List<Maratona> findByStatus(String status);
-	
-	//lista maratonas por criador
+
+	// Lista maratonas com base no status
+	List<Maratona> findByStatus(Maratona.StatusMaratona status);
+
+	// Lista maratonas por criador
 	List<Maratona> findByCriador(Integer criador);
-	
+
+	// Adicionando métodos para listar maratonas abertas ou concluídas para um corredor
+	List<Maratona> findMaratonasAbertasPorCorredor(Integer idCorredor);
+	List<Maratona> findMaratonasConcluidasPorCorredor(Integer idCorredor);
 }

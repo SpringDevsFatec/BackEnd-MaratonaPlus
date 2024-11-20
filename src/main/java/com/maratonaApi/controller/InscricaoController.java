@@ -4,57 +4,79 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.maratonaApi.model.Inscricao;
 import com.maratonaApi.service.InscricaoService;
 
 @RestController
 @RequestMapping("/api/inscricoes")
-@CrossOrigin(origins = "http://192.168.0.30:8081")
+@CrossOrigin(origins = "http://192.168.0.30:8081") // Permite o CORS para o frontend configurado
 public class InscricaoController {
-	
-	// instancia a classe categoria service 
+
     @Autowired
-    InscricaoService inscricaoService;
-    
-    // chama classe service para listar todos os categorias
+    private InscricaoService inscricaoService;
+
+    // Retorna todas as inscrições
     @GetMapping
     public List<Inscricao> listAll() {
         return inscricaoService.obterTodo();
     }
-    
-    // pega dado id e manda para classe service buscar
+
+    // Retorna uma inscrição específica pelo ID
     @GetMapping("/{id}")
-    public Inscricao getById(@PathVariable Integer id) {
-        return inscricaoService.read(id);
-    }
-    
-    // pega dados do corpo da requisição e passa a classe service para inserir
-    @PostMapping
-    public Inscricao insert(@RequestBody Inscricao categoria) {
-        return inscricaoService.insert(categoria);
-    }
-    
-    // pega corpo da requisição e manada para classe service para atualizar
-    @PutMapping("/{id}")
-    public Inscricao update(@RequestBody Inscricao categoria, @PathVariable Integer id) {
-        return inscricaoService.update(categoria, id);
-    }
-    
-    // pega parametro da requisição e manda para classe servece afim de deletar um categoria
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-    	inscricaoService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Inscricao> getById(@PathVariable Integer id) {
+        Inscricao inscricao = inscricaoService.read(id);
+        if (inscricao == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a inscrição não for encontrada
+        }
+        return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
     }
 
+    // Insere uma nova inscrição no banco
+    @PostMapping
+    public ResponseEntity<Inscricao> insert(@RequestBody Inscricao inscricao) {
+        Inscricao novaInscricao = inscricaoService.insert(inscricao);
+        return ResponseEntity.status(201).body(novaInscricao);  // Retorna o status 201 (Criado)
+    }
+
+    // Atualiza uma inscrição existente pelo ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Inscricao> update(@RequestBody Inscricao inscricao, @PathVariable Integer id) {
+        Inscricao inscricaoAtualizada = inscricaoService.update(inscricao, id);
+        if (inscricaoAtualizada == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a inscrição não for encontrada
+        }
+        return ResponseEntity.ok(inscricaoAtualizada);  // Retorna a inscrição atualizada com status 200
+    }
+
+    // Deleta uma inscrição pelo ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        boolean isDeleted = inscricaoService.deleteById(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se não encontrar a inscrição
+        }
+        return ResponseEntity.noContent().build();  // Retorna 204 para exclusão bem-sucedida
+    }
+
+    // Endpoint para desistir da participação
+    @PutMapping("/{id}/desistir")
+    public ResponseEntity<Inscricao> desistir(@PathVariable Integer id) {
+        Inscricao inscricao = inscricaoService.desistirParticipacao(id);
+        if (inscricao == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a inscrição não for encontrada
+        }
+        return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
+    }
+
+    // Endpoint para finalizar a participação
+    @PutMapping("/{id}/finalizar")
+    public ResponseEntity<Inscricao> finalizar(@PathVariable Integer id) {
+        Inscricao inscricao = inscricaoService.finalizarParticipacao(id);
+        if (inscricao == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a inscrição não for encontrada
+        }
+        return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
+    }
 }

@@ -1,51 +1,38 @@
 package com.maratonaApi.model;
 
-import java.util.Date;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.time.LocalDate;  // Usar LocalDate para data sem hora
+import java.time.LocalDateTime;  // Usar LocalDateTime para data e hora
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "inscricao")
 public class Inscricao {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_inscricao")
-	private int idInscricao;
-	@Column(name = "id_corredor")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_inscricao")
+    private int idInscricao;
+
+    @Column(name = "id_corredor")
     private int idCorredor;
-	@Column(name = "id_maratona")
+
+    @Column(name = "id_maratona")
     private int idMaratona;
-	@Column(name = "data_hora")
-    private Date dataHora;
+
+    @Column(name = "data_hora")
+    private LocalDateTime dataHora; // Usando LocalDateTime para data e hora de inscrição
+
     @Column(name = "forma_pagamento")
     private String formaPagamento;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private StatusInscricao status;
 
-    public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, Date dataHora, String status) {
-        this.idInscricao = idInscricao;
-        this.idCorredor = idCorredor;
-        this.idMaratona = idMaratona;
-        this.formaPagamento = formaPagamento;
-        this.dataHora = dataHora;
-        this.status = status;
-    }
-
-    public Inscricao(int idInscricao) {
-        this.idInscricao = idInscricao;
-    }
-
-    public Inscricao() {
-    }
+    @Column(name = "data_participacao")
+    private LocalDate dataParticipacao;  // Usando LocalDate para data de participação (sem hora)
 
     // Getters e Setters
-
-
     public int getIdInscricao() {
         return idInscricao;
     }
@@ -70,11 +57,11 @@ public class Inscricao {
         this.idMaratona = idMaratona;
     }
 
-    public Date getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(Date dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 
@@ -86,11 +73,26 @@ public class Inscricao {
         this.formaPagamento = formaPagamento;
     }
 
-    public String getStatus() {
+    public StatusInscricao getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusInscricao status) {
         this.status = status;
+    }
+
+    public LocalDate getDataParticipacao() {
+        return dataParticipacao;
+    }
+
+    public void setDataParticipacao(LocalDate dataParticipacao) {
+        this.dataParticipacao = dataParticipacao;
+    }
+
+    public enum StatusInscricao {
+        INSCRITO,
+        PARTICIPANDO,
+        FINALIZADO,
+        DESISTENCIA
     }
 }

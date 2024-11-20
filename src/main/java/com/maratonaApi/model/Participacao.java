@@ -1,51 +1,36 @@
 package com.maratonaApi.model;
 
-import java.sql.Time;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.sql.Timestamp;  // Alteração aqui para Timestamp
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "participacao")
 public class Participacao {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_participacao")
-	private int idParticipacao;
-	@Column(name = "id_inscricao")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_participacao")
+    private int idParticipacao;
+
+    @Column(name = "id_inscricao")
     private int idInscricao;
-	@Column(name = "status_conclusao")
-    private String statusConclusao;
-	@Column(name = "tempo_registrado")
-    private Time tempoRegistrado;
-	@Column(name = "tempo_inicio")
-    private Time tempoInicio;
-	@Column(name = "tempo_fim")
-    private Time tempoFim;
-	@Column(name = "passos")
-    private int Passos;
 
-    public Participacao() {
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_conclusao")
+    private StatusConclusao statusConclusao;
 
-    public Participacao(int idParticipacao) {
-        this.idParticipacao = idParticipacao;
-    }
+    @Column(name = "tempo_registrado")
+    private Timestamp tempoRegistrado;  // Alteração aqui para Timestamp
 
-    public Participacao(int idParticipacao, int idInscricao, String statusConclusao, Time tempoRegistrado, Time tempoFim, Time tempoInicio, int passos) {
-        this.idParticipacao = idParticipacao;
-        this.idInscricao = idInscricao;
-        this.statusConclusao = statusConclusao;
-        this.tempoRegistrado = tempoRegistrado;
-        this.tempoFim = tempoFim;
-        this.tempoInicio = tempoInicio;
-        Passos = passos;
-    }
+    @Column(name = "tempo_inicio")
+    private Timestamp tempoInicio;  // Alteração aqui para Timestamp
 
+    @Column(name = "tempo_fim")
+    private Timestamp tempoFim;  // Alteração aqui para Timestamp
+
+    @Column(name = "passos")
+    private int passos;
+
+    // Getters e Setters
     public int getIdParticipacao() {
         return idParticipacao;
     }
@@ -62,43 +47,49 @@ public class Participacao {
         this.idInscricao = idInscricao;
     }
 
-    public Time getTempoRegistrado() {
-        return tempoRegistrado;
-    }
-
-    public void setTempoRegistrado(Time tempoRegistrado) {
-        this.tempoRegistrado = tempoRegistrado;
-    }
-
-    public String getStatusConclusao() {
+    public StatusConclusao getStatusConclusao() {
         return statusConclusao;
     }
 
-    public void setStatusConclusao(String statusConclusao) {
+    public void setStatusConclusao(StatusConclusao statusConclusao) {
         this.statusConclusao = statusConclusao;
     }
 
-    public Time getTempoInicio() {
+    public Timestamp getTempoRegistrado() {
+        return tempoRegistrado;
+    }
+
+    public void setTempoRegistrado(Timestamp tempoRegistrado) {
+        this.tempoRegistrado = tempoRegistrado;
+    }
+
+    public Timestamp getTempoInicio() {
         return tempoInicio;
     }
 
-    public void setTempoInicio(Time tempoInicio) {
+    public void setTempoInicio(Timestamp tempoInicio) {
         this.tempoInicio = tempoInicio;
     }
 
-    public Time getTempoFim() {
+    public Timestamp getTempoFim() {
         return tempoFim;
     }
 
-    public void setTempoFim(Time tempoFim) {
+    public void setTempoFim(Timestamp tempoFim) {
         this.tempoFim = tempoFim;
     }
 
     public int getPassos() {
-        return Passos;
+        return passos;
     }
 
     public void setPassos(int passos) {
-        Passos = passos;
+        this.passos = passos;
+    }
+
+    public enum StatusConclusao {
+        FINALIZADO,
+        DESISTENCIA,
+        PARTICIPANDO
     }
 }
