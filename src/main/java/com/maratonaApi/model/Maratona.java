@@ -1,64 +1,48 @@
 package com.maratonaApi.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "maratona")
 public class Maratona {
-	//atributos
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_maratona")
     private int idMaratona;
-	@Setter
-    @Getter
+	@Setter @Getter
     private int criador;
-	@Setter
-    @Getter
+	@Setter @Getter
     private String nome;
-	@Setter
-    @Getter
+	@Setter @Getter
     private String local;
-    @Setter
-    @Getter
+    @Setter @Getter
     @Column(name = "data_inicio")
-    private String dataInicio;
-    @Setter
-    @Getter
+    private LocalDate dataInicio;
+    @Setter @Getter
     @Column(name = "data_final")
-    private String dataFinal;
-    @Setter
-    @Getter
-    private String status;
-    @Setter
-    @Getter
+    private LocalDate dataFinal;
+    @Setter @Getter
+    @Enumerated(EnumType.STRING)
+    private StatusMaratona status;
+    @Setter @Getter
     private String distancia;
-    @Setter
-    @Getter
+    @Setter @Getter
     private String descricao;
-    @Setter
-    @Getter
+    @Setter @Getter
     @Column(name = "limite_participantes")
     private int limiteParticipantes;
-    @Setter
-    @Getter
+    @Setter @Getter
     private String regras;
-    @Setter
-    @Getter
+    @Setter @Getter
     private float valor;
-    @Setter
-    @Getter
+    @Setter @Getter
     @Column(name = "tipo_terreno")
     private String tipoTerreno;
-    @Setter
-    @Getter
+    @Setter @Getter
     @Column(name = "clima_esperado")
     private String climaEsperado;
 
@@ -74,7 +58,7 @@ public class Maratona {
         this.idMaratona = id;
     }
 
-    public Maratona(int id, int criador, String nome, String local, String dataInicio, String dataFinal, String status, String distancia, String descricao, String regras, int limiteParticipantes, float valor, String climaEsperado, String tipoTerreno) {
+    public Maratona(int id, int criador, String nome, String local, LocalDate dataInicio, LocalDate dataFinal, StatusMaratona status, String distancia, String descricao, String regras, int limiteParticipantes, float valor, String climaEsperado, String tipoTerreno) {
         this.idMaratona = id;
         this.criador = criador;
         this.nome = nome;
@@ -99,4 +83,30 @@ public class Maratona {
         this.idMaratona = id;
     }
 
+    // Metodo para verificar se a maratona está aberta para inscrição
+    public boolean isAbertaParaInscricao() {
+        return this.status == StatusMaratona.ABERTA_PARA_INSCRICAO || this.status == StatusMaratona.ABERTA;
+    }
+
+    // Metodo para verificar se a maratona está em andamento
+    public boolean isEmAndamento() {
+        return this.status == StatusMaratona.EM_ANDAMENTO;
+    }
+
+    // Metodo para verificar se a maratona está concluída
+    public boolean isFinalizada() {
+        return this.status == StatusMaratona.CONCLUIDA;
+    }
+    // Metodo para verificar se a maratona foi cancelada
+    public boolean isCancelada() {
+        return this.status == StatusMaratona.CANCELADA;
+    }
+    // Enum com os status possíveis da maratona
+    public enum StatusMaratona {
+        ABERTA_PARA_INSCRICAO,
+        ABERTA,
+        EM_ANDAMENTO,
+        CONCLUIDA,
+        CANCELADA
+    }
 }

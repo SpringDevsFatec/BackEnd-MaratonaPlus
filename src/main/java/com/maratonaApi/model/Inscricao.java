@@ -1,13 +1,9 @@
 package com.maratonaApi.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "inscricao")
@@ -21,13 +17,14 @@ public class Inscricao {
 	@Column(name = "id_maratona")
     private int idMaratona;
 	@Column(name = "data_hora")
-    private Date dataHora;
+    private LocalDateTime dataHora;
     @Column(name = "forma_pagamento")
     private String formaPagamento;
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private StatusInscricao status;
 
-    public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, Date dataHora, String status) {
+    public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, LocalDateTime dataHora, StatusInscricao status) {
         this.idInscricao = idInscricao;
         this.idCorredor = idCorredor;
         this.idMaratona = idMaratona;
@@ -44,8 +41,6 @@ public class Inscricao {
     }
 
     // Getters e Setters
-
-
     public int getIdInscricao() {
         return idInscricao;
     }
@@ -70,11 +65,11 @@ public class Inscricao {
         this.idMaratona = idMaratona;
     }
 
-    public Date getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(Date dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 
@@ -86,11 +81,18 @@ public class Inscricao {
         this.formaPagamento = formaPagamento;
     }
 
-    public String getStatus() {
+    public StatusInscricao getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusInscricao status) {
         this.status = status;
+    }
+
+    public enum StatusInscricao {
+        INSCRITO,
+        PARTICIPANDO,
+        FINALIZADO,
+        DESISTENCIA
     }
 }

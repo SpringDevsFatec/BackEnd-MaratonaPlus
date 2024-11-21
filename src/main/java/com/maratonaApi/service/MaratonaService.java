@@ -31,24 +31,42 @@ public class MaratonaService {
 	public List<Maratona> obterAbertasPorCorredor(Integer idCorredor) {
 		return inscricaoRepository.findMaratonasAbertasByIdCorredor(idCorredor);
 	}
+
+	// Listar maratonas por status
+	public List<Maratona> listarPorStatus(Maratona.StatusMaratona status) {
+		return maratonaRepository.findByStatus(status);
+	}
+
+	// Listar maratonas por criador
+	public List<Maratona> listarPorCriador(Integer criador) {
+		return maratonaRepository.findByCriador(criador);
+	}
 	
 	// Ler uma maratona pelo ID
 	public Maratona read(Integer id) { return maratonaRepository.findById(id).orElse(null); }
 
+	// Verificar se a maratona está aberta para inscrição
+	public boolean podeInscrever(Integer idMaratona) {
+		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
+		if (maratona != null) {
+			// Verifica se o status é "Aberta para Inscrição" ou "Aberta"
+			return maratona.getStatus().equals(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO) ||
+					maratona.getStatus().equals(Maratona.StatusMaratona.ABERTA);
+		}
+		return false; // Se a maratona não for encontrada ou não estiver aberta para inscrições
+	}
 
-	
-	//lista maratonas com base no status
-		
-		
-	//lista maratonas por criador
-	
-	
-	// Inserir
+
+	// Inserir uma nova maratona
 	public Maratona insert(Maratona maratona) {
+		// Verificar se a data de início e final são válidas, além do status
+		//if (maratona.getDataInicio().isAfter(maratona.getDataFinal())) {
+		//	throw new IllegalArgumentException("A data de início não pode ser após a data final.");
+		//}
 		return maratonaRepository.save(maratona);
 	}
 	
-	// Atualizar
+	// Atualizar uma maratona existente
 	public Maratona update(Maratona maratona, Integer idMaratona) {
 		Maratona maratonaUpdate = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratonaUpdate != null) {

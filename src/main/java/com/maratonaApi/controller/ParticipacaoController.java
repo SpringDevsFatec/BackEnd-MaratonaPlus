@@ -4,15 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.maratonaApi.model.Participacao;
 import com.maratonaApi.service.ParticipacaoService;
@@ -22,59 +14,117 @@ import com.maratonaApi.service.ParticipacaoService;
 @CrossOrigin(origins = "http://192.168.0.30:8081")
 
 public class ParticipacaoController {
-	// instancia a classe Participacao service 
+
     @Autowired
     ParticipacaoService participacaoService;
     
-    // chama classe service para listar todos as Participacaos
+    // Retorna todas as participações
     @GetMapping
     public List<Participacao> listAll() {
         return participacaoService.listAll();
     }
 
-    // chama classe service para listar todos as Participacaos por status
+    // Retorna participações com base no status de conclusão
     @GetMapping("/status/{statusConclusao}")
     public List<Participacao> listAllStatus(@PathVariable String statusConclusao) {
         return participacaoService.listAllStatus(statusConclusao);
     }
 
-    // pega dado id e manda para classe service buscar
+    // Retorna uma participação específica pelo ID
     @GetMapping("/{id}")
     public Participacao getById(@PathVariable Integer id) {
         return participacaoService.getById(id);
     }
 
-    // pega dado id e manda para classe service buscar
+    // Retorna uma participação pelo ID de inscrição
     @GetMapping("/participacao-inscricao/{idInscricao}")
     public Participacao getInscricaoById(@PathVariable Integer idInscricao) {
         return participacaoService.getInscricaoById(idInscricao);
     }
 
-    // pega dado id e manda para classe service buscar
+    // Retorna o tempo inicial de uma participação pelo ID
     @GetMapping("/tempo-inicial/{id}")
-    public Participacao getTempoInicialById(@PathVariable Integer id) {
-        return participacaoService.getTempoInicioalById(id);
+    public ResponseEntity<String> getTempoInicialById(@PathVariable Integer id) {
+        String tempoInicio = participacaoService.getTempoInicialById(id);
+        if (tempoInicio != null) {
+            return ResponseEntity.ok(tempoInicio); // Retorna o tempo inicial encontrado
+        } else {
+            return ResponseEntity.notFound().build(); // Retorna 404 caso não tenha encontrado a participação ou tempo inicial
+        }
     }
     
-    // pega dados do corpo da requisição e passa a classe service para inserir
+    // Insere uma nova participação
     @PostMapping
     public Participacao insert(@RequestBody Participacao participacao) {
         return participacaoService.insert(participacao);
     }
     
-    // pega corpo da requisição e manada para classe service para atualizar
+    // Atualiza uma participação existente pelo ID
     @PutMapping("/{id}")
     public Participacao update(@RequestBody Participacao participacao, @PathVariable Integer id) {
         return participacaoService.update(participacao, id);
     }
 
-    // pega corpo da requisição e manada para classe service para atualizar
+    // Atualiza apenas o status de uma participação
     @PutMapping("/status/{id}")
     public Participacao updateStatus(@RequestBody Participacao participacao, @PathVariable Integer id) {
         return participacaoService.updateStatus(participacao, id);
     }
+
+    // Iniciar participação: Atualiza o status de inscrição para "participando" e registra o tempo de início
+    @PutMapping("/iniciar/{id}")
+    public ResponseEntity<Participacao> iniciarParticipacao(@PathVariable Integer id) {
+        Participacao participacao = participacaoService.iniciarParticipacao(id);
+        if (participacao != null) {
+            return ResponseEntity.ok(participacao);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Finalizar participação: Atualiza o status de inscrição para "finalizado" e salva o tempo final
+    @PutMapping("/finalizar/{id}")
+    public ResponseEntity<Participacao> finalizarParticipacao(@PathVariable Integer id) {
+        Participacao participacao = participacaoService.finalizarParticipacao(id);
+        if (participacao != null) {
+            return ResponseEntity.ok(participacao);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Registrar desistência: Atualiza o status da participação para "desistência"
+    @PutMapping("/desistir/{id}")
+    public ResponseEntity<Participacao> desistirParticipacao(@PathVariable Integer id) {
+        Participacao participacao = participacaoService.desistirParticipacao(id);
+        if (participacao != null) {
+            return ResponseEntity.ok(participacao);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    // Admin pode finalizar a maratona, atualizando o status da maratona
+    @PutMapping("/maratona/concluir/{id}")
+    public ResponseEntity<Void> concluirMaratona(@PathVariable Integer id) {
+        boolean success = participacaoService.concluirMaratona(id);
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    // Admin pode cancelar a maratona, afetando todas as participações
+    @PutMapping("/maratona/cancelar/{id}")
+    public ResponseEntity<Void> cancelarMaratona(@PathVariable Integer id) {
+        boolean success = participacaoService.cancelarMaratona(id);
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     
-    // pega parametro da requisição e manda para classe servece afim de deletar um Participacao
+    // Deleta uma participação pelo ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         participacaoService.delete(id);

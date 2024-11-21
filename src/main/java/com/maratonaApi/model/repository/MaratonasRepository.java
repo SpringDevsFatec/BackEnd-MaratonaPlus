@@ -7,10 +7,10 @@ import com.maratonaApi.model.Maratona;
 
 public interface MaratonasRepository extends JpaRepository<Maratona, Integer> {
 	
-	//lista maratonas com base no status
-	List<Maratona> findByStatus(String status);
+	//Lista maratonas com base no status
+	List<Maratona> findByStatus(Maratona.StatusMaratona status);
 	
-	//lista maratonas por criador
+	//Lista maratonas por criador
 	List<Maratona> findByCriador(Integer criador);
 	
 }
