@@ -28,3 +28,4 @@ INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, sta
 
 /* Participações */
 INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00', '2000-02-12 13:30:00', 9000);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'PARTICIPANDO', null, '2024-11-21 19:00:00', null, 0);
