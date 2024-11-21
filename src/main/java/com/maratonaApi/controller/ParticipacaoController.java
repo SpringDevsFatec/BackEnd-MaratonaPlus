@@ -2,6 +2,7 @@ package com.maratonaApi.controller;
 
 import java.util.List;
 
+import com.maratonaApi.model.Maratona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,14 @@ public class ParticipacaoController {
     // Retorna participações com base no status de conclusão
     @GetMapping("/status/{statusConclusao}")
     public List<Participacao> listAllStatus(@PathVariable String statusConclusao) {
-        return participacaoService.listAllStatus(statusConclusao);
+        // Validando o status passado
+        try {
+            Participacao.StatusParticipacao statusEnum = Participacao.StatusParticipacao.valueOf(statusConclusao);
+            return participacaoService.listAllStatus(statusEnum);
+        } catch (IllegalArgumentException e) {
+            // Caso o status fornecido não seja valido
+            return List.of(); // Retorna uma lista vazia ou erro
+        }
     }
 
     // Retorna uma participação específica pelo ID
@@ -37,7 +45,7 @@ public class ParticipacaoController {
     }
 
     // Retorna uma participação pelo ID de inscrição
-    @GetMapping("/participacao-inscricao/{idInscricao}")
+    @GetMapping("/por-inscricao/{idInscricao}")
     public Participacao getInscricaoById(@PathVariable Integer idInscricao) {
         return participacaoService.getInscricaoById(idInscricao);
     }

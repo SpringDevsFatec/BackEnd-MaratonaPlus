@@ -2,6 +2,8 @@ package com.maratonaApi.service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +25,7 @@ public class ParticipacaoService {
     }
 
     // Obter participações com base no status
-    public List<Participacao> listAllStatus(String statusConclusao) {
+    public List<Participacao> listAllStatus(Participacao.StatusParticipacao statusConclusao) {
         return participacaoRepository.findByStatusConclusao(statusConclusao);
     }
 
@@ -34,7 +36,7 @@ public class ParticipacaoService {
 
     // Buscar a participação com base no ID de inscrição
     public Participacao getInscricaoById(Integer idInscricao) {
-        return participacaoRepository.findById(idInscricao).orElse(null);
+        return participacaoRepository.findByIdInscricao(idInscricao);
     }
 
     // Retorna o tempo inicial de uma participação pelo ID
@@ -73,8 +75,15 @@ public class ParticipacaoService {
             Timestamp tempoFim = new Timestamp(System.currentTimeMillis());  // Usando Timestamp aqui
             participacao.setTempoFim(tempoFim);
             // Calculando tempo registrado
-            long tempoDecorrido = tempoFim.getTime() - participacao.getTempoInicio().getTime();
-            participacao.setTempoRegistrado(new Timestamp(tempoDecorrido)); // Usando Timestamp para tempo registrado
+            long tempoDecorridoMillis = tempoFim.getTime() - participacao.getTempoInicio().getTime();
+            Duration duracao = Duration.ofMillis(tempoDecorridoMillis);
+            // Convertendo para o formato "HH:mm:ss"
+            long horas = duracao.toHours();
+            long minutos = duracao.toMinutesPart();
+            long segundos = duracao.toSecondsPart();
+            String tempoRegistrado = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+
+            participacao.setTempoRegistrado(tempoRegistrado); // Usando Timestamp para tempo registrado
             return participacaoRepository.save(participacao);
         }
         return null;
@@ -87,6 +96,18 @@ public class ParticipacaoService {
             Participacao participacao = participacaoOptional.get();
             // Atualiza o status para "desistência"
             participacao.setStatusConclusao(Participacao.StatusParticipacao.DESISTENCIA);
+            Timestamp tempoFim = new Timestamp(System.currentTimeMillis());  // Usando Timestamp aqui
+            participacao.setTempoFim(tempoFim);
+            // Calculando tempo registrado
+            long tempoDecorridoMillis = tempoFim.getTime() - participacao.getTempoInicio().getTime();
+            Duration duracao = Duration.ofMillis(tempoDecorridoMillis);
+            // Convertendo para o formato "HH:mm:ss"
+            long horas = duracao.toHours();
+            long minutos = duracao.toMinutesPart();
+            long segundos = duracao.toSecondsPart();
+            String tempoRegistrado = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+
+            participacao.setTempoRegistrado(tempoRegistrado);
             return participacaoRepository.save(participacao);
         }
         return null;
@@ -104,6 +125,8 @@ public class ParticipacaoService {
 
     // cadastra nova participacao
     public Participacao insert(Participacao participacao) {
+        participacao.setStatusConclusao(Participacao.StatusParticipacao.PARTICIPANDO);
+        participacao.setTempoInicio(Timestamp.from(Instant.now()));
         return participacaoRepository.save(participacao);
     }
 
