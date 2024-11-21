@@ -2,7 +2,9 @@ package com.maratonaApi.controller;
 
 import java.util.List;
 
+import com.maratonaApi.model.Inscricao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.maratonaApi.model.Maratona;
@@ -75,6 +77,36 @@ public class MaratonaController {
     @PutMapping("/{id}")
     public Maratona update(@RequestBody Maratona maratona, @PathVariable Integer id) {
         return maratonaService.update(maratona, id);
+    }
+
+    // Endpoint para iniciar a maratona
+    @PutMapping("/{id}/iniciar")
+    public ResponseEntity<Maratona> iniciar(@PathVariable Integer id) {
+        Maratona maratona = maratonaService.iniciar(id);
+        if (maratona == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a maratona não for encontrada
+        }
+        return ResponseEntity.ok(maratona);  // Retorna a maratona com status 200
+    }
+
+    // Endpoint para concluir a maratona
+    @PutMapping("/{id}/concluir")
+    public ResponseEntity<Maratona> concluir(@PathVariable Integer id) {
+        Maratona maratona = maratonaService.concluir(id);
+        if (maratona == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a maratona não for encontrada
+        }
+        return ResponseEntity.ok(maratona);  // Retorna a maratona com status 200
+    }
+
+    // Endpoint para cancelar a maratona
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Maratona> cancelar(@PathVariable Integer id) {
+        Maratona maratona = maratonaService.cancelar(id);
+        if (maratona == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a maratona não for encontrada
+        }
+        return ResponseEntity.ok(maratona);  // Retorna a maratona com status 200
     }
 
     // Atualiza uma maratona existente pelo ID
