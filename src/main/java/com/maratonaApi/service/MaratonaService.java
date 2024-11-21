@@ -86,7 +86,7 @@ public class MaratonaService {
 			maratonaUpdate.setClimaEsperado(maratona.getClimaEsperado());
 			return maratonaRepository.save(maratonaUpdate);
 			
-		};
+		}
 		return maratonaUpdate; 
 	}
 	
@@ -97,7 +97,7 @@ public class MaratonaService {
 			maratonaUpdate.setStatus(maratona.getStatus());
 			return maratonaRepository.save(maratonaUpdate);
 		
-		};
+		}
 		return maratonaUpdate; 
 	}
 	

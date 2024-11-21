@@ -1,9 +1,10 @@
 package com.maratonaApi.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "inscricao")
@@ -12,12 +13,16 @@ public class Inscricao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_inscricao")
 	private int idInscricao;
+    @Setter @Getter
 	@Column(name = "id_corredor")
     private int idCorredor;
+    @Setter @Getter
 	@Column(name = "id_maratona")
     private int idMaratona;
+    @Setter @Getter
 	@Column(name = "data_hora")
     private LocalDateTime dataHora;
+    @Setter @Getter
     @Column(name = "forma_pagamento")
     private String formaPagamento;
     @Enumerated(EnumType.STRING)
@@ -47,38 +52,6 @@ public class Inscricao {
 
     public void setIdInscricao(int idInscricao) {
         this.idInscricao = idInscricao;
-    }
-
-    public int getIdCorredor() {
-        return idCorredor;
-    }
-
-    public void setIdCorredor(int idCorredor) {
-        this.idCorredor = idCorredor;
-    }
-
-    public int getIdMaratona() {
-        return idMaratona;
-    }
-
-    public void setIdMaratona(int idMaratona) {
-        this.idMaratona = idMaratona;
-    }
-
-    public LocalDateTime getDataHora() {
-        return dataHora;
-    }
-
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
-    }
-
-    public String getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
     }
 
     public StatusInscricao getStatus() {

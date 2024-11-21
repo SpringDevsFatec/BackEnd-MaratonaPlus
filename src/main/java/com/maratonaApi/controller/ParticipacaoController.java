@@ -103,7 +103,8 @@ public class ParticipacaoController {
             return ResponseEntity.notFound().build();
         }
     }
-    // Admin pode finalizar a maratona, atualizando o status da maratona
+
+    /*/ Admin pode finalizar a maratona, atualizando o status da maratona
     @PutMapping("/maratona/concluir/{id}")
     public ResponseEntity<Void> concluirMaratona(@PathVariable Integer id) {
         boolean success = participacaoService.concluirMaratona(id);
@@ -123,6 +124,7 @@ public class ParticipacaoController {
             return ResponseEntity.notFound().build();
         }
     }
+     */
     
     // Deleta uma participação pelo ID
     @DeleteMapping("/{id}")

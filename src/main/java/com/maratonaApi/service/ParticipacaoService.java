@@ -92,14 +92,15 @@ public class ParticipacaoService {
         return null;
     }
 
-    // Concluir a maratona (admin): Atualiza a maratona para "concluída"
-    public boolean concluirMaratona(Integer maratonaId) {
+    /*/ Concluir a maratona (admin): Atualiza a maratona para "concluída"
+    public boolean concluirMaratona(Integer idMaratona) {
         return true;  // Exemplo de sucesso
     }
     // Cancelar a maratona (admin): Atualiza o status das inscrições relacionadas
-    public boolean cancelarMaratona(Integer maratonaId) {
+    public boolean cancelarMaratona(Integer idMaratona) {
         return true;  // Exemplo de sucesso
     }
+     */
 
     // cadastra nova participacao
     public Participacao insert(Participacao participacao) {
