@@ -20,11 +20,11 @@ INSERT INTO corredor (nome, telefone, email, senha, data_nasc, cpf, endereco, ge
 INSERT INTO corredor (nome, telefone, email, senha, data_nasc, cpf, endereco, genero, url_foto, pais_origem) VALUES ('Juliana Martins', '31987655443', 'ju@gmail.com', '123', '2000-02-12', '999.888.777-66', 'Rua Primavera, 345, São Paulo, SP', 'Feminino', 'http://example.com/fotos/juliana.jpg', 'Brasil');
 
 /* Inscrições */
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status) VALUES (2, 2, 'Cartão de Crédito', 'INSCRITO');
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status) VALUES (3, 1, 'Boleto Bancário', 'INSCRITO');
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status) VALUES (4, 3, 'PIX', 'FINALIZADO');
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status) VALUES (5, 2, 'Cartão de Débito', 'INSCRITO');
-INSERT INTO inscricao (id_corredor, id_maratona, forma_pagamento, status) VALUES (1, 4, 'Transferência Bancária', 'INSCRITO');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (2, 2, '2024-11-21T15:56:02.796069', 'Cartão de Crédito', 'INSCRITO');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (3, 1, '2024-11-21T15:56:02.796069', 'Boleto Bancário', 'INSCRITO');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (4, 3, '2024-11-21T15:56:02.796069', 'PIX', 'FINALIZADO');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (5, 2, '2024-11-21T15:56:02.796069', 'Cartão de Débito', 'INSCRITO');
+INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (1, 4, '2024-11-21T15:56:02.796069', 'Transferência Bancária', 'INSCRITO');
 
 /* Participações */
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'PARTICIPANDO', '2000-02-12 1:30:00', '2000-02-12 12:00:00', '2000-02-12 13:30:00', 9000);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00', '2000-02-12 13:30:00', 9000);
