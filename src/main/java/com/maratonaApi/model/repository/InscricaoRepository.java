@@ -1,6 +1,7 @@
 package com.maratonaApi.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,5 +37,11 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Integer> {
 	//select corredores pela tabela de inscrição com status "DESISTENCIA" com base no id da maratona
 	@Query("SELECT c FROM Corredor c INNER JOIN Inscricao i ON c.idCorredor = i.idCorredor WHERE i.idMaratona = :idMaratona AND i.status = 'DESISTENCIA'")
 	List<Corredor> findCorredoresDesitiramByMaratona(@Param("idMaratona") int idMaratona);
+
+	// Busca todas as inscrições de uma maratona específica
+	@Query("SELECT i FROM Inscricao i WHERE i.idMaratona = :idMaratona")
+	List<Inscricao> findByIdMaratona(@Param("idMaratona") int idMaratona);
+
+	Optional<Inscricao> findById(int idInscricao);
 
 }
