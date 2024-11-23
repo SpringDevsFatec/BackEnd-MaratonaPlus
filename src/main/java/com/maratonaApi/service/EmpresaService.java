@@ -1,7 +1,12 @@
 package com.maratonaApi.service;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Empresa;
@@ -15,6 +20,9 @@ public class EmpresaService {
 	public EmpresaService(EmpresasRepository empresaRepository) {
 		this.empresaRepository = empresaRepository;
 	}
+
+	@Autowired
+	private EmailService emailService;
 
 	// Obter todas as empresas
 	public List<Empresa> obterTodo(){
@@ -37,7 +45,19 @@ public class EmpresaService {
 	
 	// Inserir
 	public Empresa insert(Empresa empresa) {
-		return empresaRepository.save(empresa);
+		Empresa novaEmpresa = empresaRepository.save(empresa);
+
+		// Envia um email de verificação
+		Map<String, Object> templateModel = new HashMap<>();
+		templateModel.put("nome", novaEmpresa.getNome());
+
+		try {
+			emailService.enviarEmailComTemplate(novaEmpresa.getEmail(), "Nova Empresa cadastrada", "templates/empresa-cadastrada.html", templateModel);
+		} catch (MessagingException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return novaEmpresa;
 	}
 	
 	// Atualizar

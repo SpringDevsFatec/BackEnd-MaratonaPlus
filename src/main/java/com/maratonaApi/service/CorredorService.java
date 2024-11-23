@@ -1,8 +1,12 @@
 package com.maratonaApi.service;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +22,10 @@ public class CorredorService {
 
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
-	
+
+	@Autowired
+	private EmailService emailService;
+
 	// Obter todos os corredores
 	public List<Corredor> obterTodos(){
 		return corredorRepository.findAll();
@@ -46,7 +53,19 @@ public class CorredorService {
 
 	// Inserir um novo corredor
 	public Corredor insert(Corredor corredor) {
-		return corredorRepository.save(corredor);
+		Corredor novoCorredor = corredorRepository.save(corredor);
+
+		// Envia um email de verificação
+		Map<String, Object> templateModel = new HashMap<>();
+		templateModel.put("nome", novoCorredor.getNome());
+
+		try {
+			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo corredor cadastrado", "templates/corredor-cadastrado.html", templateModel);
+		} catch (MessagingException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return novoCorredor;
 	}
 
 	//verifica o login do corredor e retorna seu id se feito com sucesso
