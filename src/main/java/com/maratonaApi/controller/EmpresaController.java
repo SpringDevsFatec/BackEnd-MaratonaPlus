@@ -18,7 +18,7 @@ import com.maratonaApi.service.EmpresaService;
 
 @RestController
 @RequestMapping("/api/empresas")
-@CrossOrigin(origins = "http://192.168.0.30:8081")
+@CrossOrigin(origins = "*/")
 
 public class EmpresaController {
 	// instancia a classe Empresa service 
