@@ -1,7 +1,9 @@
 package com.maratonaApi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +37,7 @@ public class InscricaoController {
     
     // Insere uma nova inscrição no banco
     @PostMapping
-    public ResponseEntity<Inscricao> insert(@RequestBody Inscricao inscricao) {
+    public ResponseEntity<Inscricao> insert(@RequestBody Inscricao inscricao) throws MessagingException, IOException {
         Inscricao novaInscricao = inscricaoService.insert(inscricao);
         return ResponseEntity.status(201).body(novaInscricao);  // Retorna o status 201 (Criado)
     }

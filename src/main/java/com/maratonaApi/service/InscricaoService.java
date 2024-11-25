@@ -1,8 +1,17 @@
 package com.maratonaApi.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
+import com.maratonaApi.model.Corredor;
+import com.maratonaApi.model.Maratona;
+import com.maratonaApi.model.repository.CorredoresRepository;
+import com.maratonaApi.model.repository.MaratonasRepository;
+import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +23,16 @@ public class InscricaoService {
 
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
-	
+
+	@Autowired
+	private CorredoresRepository corredorRepository;
+
+	@Autowired
+	private MaratonasRepository maratonaRepository;
+
+	@Autowired
+	private EmailService emailService;
+
 	// Obter todas as inscrições
 	public List<Inscricao> obterTodo() { return inscricaoRepository.findAll(); }
 	
@@ -24,13 +42,40 @@ public class InscricaoService {
 	}
 	
 	// Inserir uma nova inscrição
-	public Inscricao insert(Inscricao inscricao) {
-		// Definindo o status para "INSCRITO"
+	@Transactional
+	public Inscricao insert(Inscricao inscricao) throws MessagingException, IOException {
+		// Definindo o status e a data/hora de inscrição
 		inscricao.setStatus(Inscricao.StatusInscricao.INSCRITO);
-		inscricao.setDataHora(LocalDateTime.now());  // Definindo a data/hora de inscrição
-		return inscricaoRepository.save(inscricao);
+		inscricao.setDataHora(LocalDateTime.now());
+
+		// Salvando a inscrição no banco de dados
+		Inscricao savedInscricao = inscricaoRepository.save(inscricao);
+
+		// Recuperando informações do corredor e da maratona
+		Corredor corredor = corredorRepository.findById(inscricao.getIdCorredor())
+				.orElseThrow(() -> new EntityNotFoundException("Corredor não encontrado!"));
+		Maratona maratona = maratonaRepository.findById(inscricao.getIdMaratona())
+				.orElseThrow(() -> new EntityNotFoundException("Maratona não encontrada!"));
+
+		// Configurando os dados do e-mail
+		String emailTemplatePath = "templates/corredor-inscricao.html";
+		Map<String, Object> templateModel = Map.of(
+				"nomeCorredor", corredor.getNome(),
+				"nomeMaratona", maratona.getNome()
+		);
+
+		// Enviando o e-mail
+		emailService.enviarEmailComTemplate(
+				corredor.getEmail(),
+				"Confirmação de Inscrição na Maratona",
+				emailTemplatePath,
+				templateModel
+		);
+
+		return savedInscricao;
 	}
-	
+
+
 	// Atualizar uma inscrição existente
 	public Inscricao update(Inscricao inscricao, Integer idInscricao) {
 		Inscricao inscricaoUpdate = inscricaoRepository.findById(idInscricao).orElse(null);  // Busca inscrição existente
