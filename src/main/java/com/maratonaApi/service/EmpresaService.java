@@ -52,7 +52,7 @@ public class EmpresaService {
 		templateModel.put("nome", novaEmpresa.getNome());
 
 		try {
-			emailService.enviarEmailComTemplate(novaEmpresa.getEmail(), "Nova Empresa cadastrada", "templates/empresa-cadastrada.html", templateModel);
+			emailService.enviarEmailComTemplate(novaEmpresa.getEmail(), "Novo Usuário cadastrado", "templates/usuario-cadastrado.html", templateModel);
 		} catch (MessagingException | IOException e) {
 			e.printStackTrace();
 		}

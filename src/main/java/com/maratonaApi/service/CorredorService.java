@@ -60,7 +60,7 @@ public class CorredorService {
 		templateModel.put("nome", novoCorredor.getNome());
 
 		try {
-			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo corredor cadastrado", "templates/corredor-cadastrado.html", templateModel);
+			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo corredor cadastrado", "templates/usuario-cadastrado.html", templateModel);
 		} catch (MessagingException | IOException e) {
 			e.printStackTrace();
 		}
