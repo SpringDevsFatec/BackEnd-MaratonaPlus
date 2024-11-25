@@ -38,7 +38,7 @@ public class EmpresaService {
 	public Integer verificarLoginEmpresaId(String email, String senha) {
 		Empresa empresaEmail = empresaRepository.findByEmail(email);
 		if (empresaEmail != null && empresaEmail.getSenha().equals(senha)) {
-			return empresaEmail.getIdEmpresa();  // Retorna o id do Corredor encontrado
+			return empresaEmail.getIdEmpresa();  // Retorna o id da empresa encontrada
 		}
 		return -1;  // Retorna -1 se o login falhar
 	}
