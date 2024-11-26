@@ -8,41 +8,29 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "maratona")
+@Setter @Getter
 public class Maratona {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_maratona")
     private int idMaratona;
-	@Setter @Getter
     private int criador;
-	@Setter @Getter
     private String nome;
-	@Setter @Getter
     private String local;
-    @Setter @Getter
     @Column(name = "data_inicio")
     private LocalDate dataInicio;
-    @Setter @Getter
     @Column(name = "data_final")
     private LocalDate dataFinal;
-    @Setter @Getter
     @Enumerated(EnumType.STRING)
     private StatusMaratona status;
-    @Setter @Getter
     private String distancia;
-    @Setter @Getter
     private String descricao;
-    @Setter @Getter
     @Column(name = "limite_participantes")
     private int limiteParticipantes;
-    @Setter @Getter
     private String regras;
-    @Setter @Getter
     private float valor;
-    @Setter @Getter
     @Column(name = "tipo_terreno")
     private String tipoTerreno;
-    @Setter @Getter
     @Column(name = "clima_esperado")
     private String climaEsperado;
 

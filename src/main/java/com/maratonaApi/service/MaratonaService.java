@@ -9,6 +9,8 @@ import com.maratonaApi.model.Maratona;
 import com.maratonaApi.model.repository.InscricaoRepository;
 import com.maratonaApi.model.repository.MaratonasRepository;
 
+import com.maratonaApi.dto.MaratonaComEmpresaDTO;
+
 @Service
 public class MaratonaService {
 	@Autowired
@@ -43,24 +45,25 @@ public class MaratonaService {
 	}
 	
 	// Ler uma maratona pelo ID
-	public Maratona read(Integer id) { return maratonaRepository.findById(id).orElse(null); }
+	public MaratonaComEmpresaDTO getMaratonaWithEmpresa(Integer id) {
+		return maratonaRepository.findMaratonaWithEmpresa(id);
+	}
 
-	// Verificar se a maratona está aberta para inscrição
-	public boolean podeInscrever(Integer idMaratona) {
+	// Verificar se a maratona está em andamento
+	public boolean estaEmAndamento(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratona != null) {
-			// Verifica se o status é "Aberta para Inscrição" ou "Aberta"
-			return maratona.getStatus().equals(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO) ||
-					maratona.getStatus().equals(Maratona.StatusMaratona.ABERTA);
+			// Verifica se o status é "EM_ANDAMENTO"
+			return maratona.getStatus().equals(Maratona.StatusMaratona.EM_ANDAMENTO);
 		}
-		return false; // Se a maratona não for encontrada ou não estiver aberta para inscrições
+		return false; // Se a maratona não for encontrada ou não estiver EM_ANDAMENTO
 	}
 
 
 	// Inserir uma nova maratona
 	public Maratona insert(Maratona maratona) {
 		// Definindo o status para "ABERTA"
-		maratona.setStatus(Maratona.StatusMaratona.ABERTA);
+		maratona.setStatus(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO);
 		// Verificar se a data de início e final são válidas, além do status
 		if (maratona.getDataInicio().isAfter(maratona.getDataFinal())) {
 			throw new IllegalArgumentException("A data de início não pode ser após a data final.");
@@ -94,6 +97,16 @@ public class MaratonaService {
 			
 		}
 		return maratonaUpdate; 
+	}
+
+	// Atualizar status para "ABERTA" de uma maratona
+	public Maratona abrir(Integer idMaratona) {
+		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
+		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO) {
+			maratona.setStatus(Maratona.StatusMaratona.ABERTA);
+			return maratonaRepository.save(maratona);
+		}
+		return null;  // Retorna null se a maratona já está em andamento ou não existe
 	}
 
 	// Atualizar status para "EM_ANDAMENTO" de uma maratona

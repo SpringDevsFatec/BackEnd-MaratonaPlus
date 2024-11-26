@@ -1,8 +1,9 @@
 package com.maratonaApi.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import com.maratonaApi.model.Inscricao;
+import com.maratonaApi.dto.MaratonaComEmpresaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,21 @@ public class MaratonaController {
 
     // Retorna uma maratona específica pelo ID
     @GetMapping("/{id}")
-    public Maratona getById(@PathVariable Integer id) {
-        return maratonaService.read(id);
+    public ResponseEntity<?> getMaratonaWithEmpresa(@PathVariable Integer id) {
+        MaratonaComEmpresaDTO dto = maratonaService.getMaratonaWithEmpresa(id);
+
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(dto);
     }
 
+
     // Verifica se a maratona tem vagas para inscrição
-    @GetMapping("/{id}/pode-inscrever")
-    public boolean podeInscrever(@PathVariable Integer id) {
-        return maratonaService.podeInscrever(id);
+    @GetMapping("/{id}/em-andamento")
+    public boolean estaEmAndamento(@PathVariable Integer id) {
+        return maratonaService.estaEmAndamento(id);
     }
 
     // Retorna maratonas abertas para um corredor específico
@@ -62,9 +70,9 @@ public class MaratonaController {
     }
 
     // Retorna maratonas criadas por um usuário específico
-    @GetMapping("/criador/{criadorId}")
-    public List<Maratona> listarPorCriador(@PathVariable Integer criadorId) {
-        return maratonaService.listarPorCriador(criadorId);
+    @GetMapping("/criador/{criador}")
+    public List<Maratona> listarPorCriador(@PathVariable Integer criador) {
+        return maratonaService.listarPorCriador(criador);
     }
 
     // Insere uma nova maratona
@@ -77,6 +85,16 @@ public class MaratonaController {
     @PutMapping("/{id}")
     public Maratona update(@RequestBody Maratona maratona, @PathVariable Integer id) {
         return maratonaService.update(maratona, id);
+    }
+
+    // Endpoint para abiri a maratona
+    @PutMapping("/{id}/abrir")
+    public ResponseEntity<Maratona> abrir(@PathVariable Integer id) {
+        Maratona maratona = maratonaService.abrir(id);
+        if (maratona == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a maratona não for encontrada
+        }
+        return ResponseEntity.ok(maratona);  // Retorna a maratona com status 200
     }
 
     // Endpoint para iniciar a maratona
