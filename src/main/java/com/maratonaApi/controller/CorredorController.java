@@ -11,7 +11,7 @@ import com.maratonaApi.service.CorredorService;
 
 @RestController
 @RequestMapping("/api/corredores")
-@CrossOrigin(origins = "http://192.168.0.30:8081")
+@CrossOrigin(origins = "*/")
 
 public class CorredorController {
 
