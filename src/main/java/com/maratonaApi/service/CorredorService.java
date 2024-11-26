@@ -57,10 +57,10 @@ public class CorredorService {
 
 		// Envia um email de verificação
 		Map<String, Object> templateModel = new HashMap<>();
-		templateModel.put("nome", novoCorredor.getNome());
+		templateModel.put("nomeCorredor", novoCorredor.getNome());
 
 		try {
-			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo corredor cadastrado", "templates/usuario-cadastrado.html", templateModel);
+			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo Corredor cadastrado", "templates/corredor-cadastrado.html", templateModel);
 		} catch (MessagingException | IOException e) {
 			e.printStackTrace();
 		}
