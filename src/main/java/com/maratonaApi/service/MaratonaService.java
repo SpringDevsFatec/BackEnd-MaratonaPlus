@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.maratonaApi.model.Corredor;
 import com.maratonaApi.model.Empresa;
+import com.maratonaApi.model.Inscricao;
+import com.maratonaApi.model.repository.CorredoresRepository;
 import com.maratonaApi.model.repository.EmpresasRepository;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +30,9 @@ public class MaratonaService {
 	
 	@Autowired
     private InscricaoRepository inscricaoRepository;
+
+	@Autowired
+	private CorredoresRepository corredorRepository;
 
 	@Autowired
 	private EmailService emailService;
@@ -186,7 +192,7 @@ public class MaratonaService {
 		return null; // Retorna null se a maratona já está concluída ou não existe
 	}
 
-	// Atualizar status para "CANCELADA" de uma maratona e enviar e-mail
+	// Atualizar status para "CANCELADA" de uma maratona e enviar e-mail para todos os corredores
 	public Maratona cancelar(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.CANCELADA) {
@@ -210,6 +216,28 @@ public class MaratonaService {
 				);
 			} catch (Exception e) {
 				e.printStackTrace(); // Log da falha no envio de e-mail
+			}
+
+			// Recuperar todos os corredores inscritos na maratona cancelada
+			List<Inscricao> inscricoes = inscricaoRepository.findByIdMaratona(idMaratona);
+
+			// Enviar e-mail a cada corredor inscrito
+			for (Inscricao inscricao : inscricoes) {
+				Corredor corredor = corredorRepository.findById(inscricao.getIdCorredor())
+						.orElseThrow(() -> new EntityNotFoundException("Corredor não encontrado!"));
+				try {
+					emailService.enviarEmailComTemplate(
+							corredor.getEmail(),
+							"Maratona Cancelada",
+							"templates/corredor-maratona-cancelada.html",
+							Map.of(
+									"nomeCorredor", corredor.getNome(),
+									"nomeMaratona", maratona.getNome()
+							)
+					);
+				} catch (Exception e) {
+					e.printStackTrace(); // Log da falha no envio de e-mail
+				}
 			}
 
 			return maratonaAtualizada;
