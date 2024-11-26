@@ -1,5 +1,6 @@
 package com.maratonaApi.controller;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.maratonaApi.model.Ranking;
 import com.maratonaApi.service.RankingService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class RankingController {
 
     // Gera o ranking de uma maratona
     @PostMapping("/maratona/{idMaratona}")
-    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) {
+    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) throws MessagingException, IOException {
         List<Ranking> ranking = rankingService.gerarRankingPorMaratona(idMaratona);
         return ResponseEntity.ok(ranking);
     }

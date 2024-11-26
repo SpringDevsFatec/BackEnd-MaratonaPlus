@@ -1,19 +1,14 @@
 package com.maratonaApi.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
-import com.maratonaApi.model.Participacao;
-import com.maratonaApi.model.repository.ParticipacaoRepository;
+import com.maratonaApi.model.*;
+import com.maratonaApi.model.repository.*;
+import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.maratonaApi.model.Inscricao;
-import com.maratonaApi.model.Ranking;
-import com.maratonaApi.model.repository.InscricaoRepository;
-import com.maratonaApi.model.repository.RankingRepository;
 
 @Service
 public class RankingService {
@@ -25,9 +20,18 @@ public class RankingService {
     private InscricaoRepository inscricaoRepository;
 
     @Autowired
+    private CorredoresRepository corredorRepository;
+
+    @Autowired
+    private MaratonasRepository maratonaRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private RankingRepository rankingRepository;
 
-    public List<Ranking> gerarRankingPorMaratona(int idMaratona) {
+    public List<Ranking> gerarRankingPorMaratona(int idMaratona) throws MessagingException, IOException {
         // Busca todas as participações finalizadas
         List<Participacao> participacoes = participacaoRepository.findByStatusConclusao(Participacao.StatusParticipacao.FINALIZADO);
 
@@ -70,7 +74,38 @@ public class RankingService {
         // Salva o ranking no banco de dados
         rankingRepository.saveAll(rankingList);
 
+        // Envia o e-mail para cada corredor no ranking
+        enviarEmailsParaCorredores(rankingList, idMaratona);
+
         return rankingList;
+    }
+
+    private void enviarEmailsParaCorredores(List<Ranking> rankingList, int idMaratona) throws MessagingException, IOException {
+        // Recupera a maratona uma única vez
+        Maratona maratona = maratonaRepository.findById(idMaratona)
+                .orElseThrow(() -> new EntityNotFoundException("Maratona não encontrada!"));
+
+        for (Ranking ranking : rankingList) {
+            // Recupera as informações do corredor
+            Corredor corredor = corredorRepository.findById(ranking.getIdCorredor())
+                    .orElseThrow(() -> new EntityNotFoundException("Corredor não encontrado!"));
+
+            // Configura os dados do e-mail
+            String emailTemplatePath = "templates/corredor-participacao.html";
+            Map<String, Object> templateModel = Map.of(
+                    "nomeCorredor", corredor.getNome(),
+                    "nomeMaratona", maratona.getNome(),
+                    "posicao", ranking.getPosicao()
+            );
+
+            // Envia o e-mail
+            emailService.enviarEmailComTemplate(
+                    corredor.getEmail(),
+                    "Parabéns por finalizar a maratona " + maratona.getNome(),
+                    emailTemplatePath,
+                    templateModel
+            );
+        }
     }
 
     private double converterTempoParaSegundos(String tempo) {
