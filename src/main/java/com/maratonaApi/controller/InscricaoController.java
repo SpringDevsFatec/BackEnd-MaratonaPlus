@@ -13,7 +13,7 @@ import com.maratonaApi.service.InscricaoService;
 
 @RestController
 @RequestMapping("/api/inscricoes")
-@CrossOrigin(origins = "http://192.168.0.30:8081")
+@CrossOrigin(origins = "*/")
 public class InscricaoController {
 
     @Autowired

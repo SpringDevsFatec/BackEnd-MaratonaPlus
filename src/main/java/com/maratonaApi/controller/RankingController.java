@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ranking")
+@CrossOrigin(origins = "*/")
 public class RankingController {
 
     @Autowired
