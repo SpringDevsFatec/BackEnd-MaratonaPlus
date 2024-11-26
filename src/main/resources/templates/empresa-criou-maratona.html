@@ -77,21 +77,28 @@
 <div class="email-container">
     <!-- Cabeçalho -->
     <div class="email-header">
-        <h2>Maratona Cadastrada!</h2>
+        <h2>Maratona Cadastrada com Sucesso!</h2>
     </div>
     <!-- Corpo do e-mail -->
     <div class="email-body">
-        <p>Olá, <strong>{{nome_criador}}</strong>,</p>
-        <p>Estamos felizes em informar que sua maratona {{nome_maratona}} foi cadastrada com sucesso!</p>
-        <p>Ela foi programada para abrir as inscrições em {{data_inicio}} e iniciar em {{data_final}}.</p>
-        <p>Se tiver alguma dúvida ou precisar de assistência, não hesite em <a href="{{link_contato}}">nos contatar</a>.</p>
-        <p>Obrigado,</p>
-        <p><strong>Equipe Maratona+</strong></p>
+        <p>Olá, <strong>{{nomeUsuario}}</strong>,</p>
+        <p>Parabéns! A maratona <strong>{{nomeMaratona}}</strong> foi cadastrada com sucesso em nossa plataforma.</p>
+        <p>Está agendada para <strong>{{dataInicio}}</strong> e programada para finalizar em {{dataFinal}}.</p>
+
+        <p>Agora, você pode acompanhar as inscrições, gerenciar os detalhes do evento e interagir com os participantes diretamente pelo sistema.</p>
+
+        <p>Se precisar de ajuda ou tiver dúvidas, nossa equipe está pronta para ajudá-lo. É só entrar em contato conosco.</p>
+        <p>Obrigado por escolher o <strong>Maratona+</strong> para organizar seu evento!</p>
+
+        <p>Atenciosamente,</p>
+        <p><strong>Equipe Spring Devs</strong></p>
     </div>
     <!-- Rodapé -->
     <div class="email-footer">
-        <p>© 2024 Maratona Plus Corporation. Todos os direitos reservados.</p>
+        <p>© 2024 Spring Devs. Todos os direitos reservados.</p>
+        <p>Este e-mail foi enviado automaticamente. Por favor, não responda.</p>
     </div>
+
 </div>
 </body>
 </html>

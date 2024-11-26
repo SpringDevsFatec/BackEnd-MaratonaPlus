@@ -1,7 +1,13 @@
 package com.maratonaApi.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import com.maratonaApi.model.Empresa;
+import com.maratonaApi.model.repository.EmpresasRepository;
+import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +21,15 @@ import com.maratonaApi.dto.MaratonaComEmpresaDTO;
 public class MaratonaService {
 	@Autowired
 	private MaratonasRepository maratonaRepository;
+
+	@Autowired
+	private EmpresasRepository empresaRepository;
 	
 	@Autowired
     private InscricaoRepository inscricaoRepository;
+
+	@Autowired
+	private EmailService emailService;
 	
 	// Obter todas as maratonas
 	public List<Maratona> obterTodos(){
@@ -61,25 +73,49 @@ public class MaratonaService {
 
 
 	// Inserir uma nova maratona
-	public Maratona insert(Maratona maratona) {
-		// Definindo o status para "ABERTA"
+	public Maratona insert(Maratona maratona) throws MessagingException, IOException {
+		// Definindo o status inicial para "ABERTA"
 		maratona.setStatus(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO);
-		// Verificar se a data de início e final são válidas, além do status
+
+		// Validando as datas de início e final
 		if (maratona.getDataInicio().isAfter(maratona.getDataFinal())) {
-			throw new IllegalArgumentException("A data de início não pode ser após a data final.");
+			throw new IllegalArgumentException("A data de início não pode ser posterior à data final.");
 		}
-		return maratonaRepository.save(maratona);
+
+		// Salvando a maratona no banco de dados
+		Maratona savedMaratona = maratonaRepository.save(maratona);
+
+		// Recuperando informações da empresa criadora
+		Empresa empresa = empresaRepository.findById(maratona.getCriador())
+				.orElseThrow(() -> new EntityNotFoundException("Empresa criadora não encontrada!"));
+
+		// Configurando os dados para o e-mail
+		String emailTemplatePath = "templates/empresa-criou-maratona.html";
+		Map<String, Object> templateModel = Map.of(
+				"nomeUsuario", empresa.getUsuario(),
+				"nomeMaratona", maratona.getNome(),
+				"dataInicio", maratona.getDataInicio().toString(),
+				"dataFinal", maratona.getDataFinal().toString()
+		);
+
+		// Enviando o e-mail de confirmação para a empresa criadora
+		emailService.enviarEmailComTemplate(
+				empresa.getEmail(),
+				"Confirmação de Criação da Maratona",
+				emailTemplatePath,
+				templateModel
+		);
+
+		return savedMaratona;
 	}
-	
+
 	// Atualizar uma maratona existente
 	public Maratona update(Maratona maratona, Integer idMaratona) {
 		Maratona maratonaUpdate = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratonaUpdate != null) {
-			//maratonaUpdate.setCriador(maratona.getCriador());
 			maratonaUpdate.setNome(maratona.getNome());
 			maratonaUpdate.setLocal(maratona.getLocal());
 			maratonaUpdate.setDataInicio(maratona.getDataInicio());
-			//maratonaUpdate.setStatus(maratona.getStatus());
 			maratonaUpdate.setDescricao(maratona.getDescricao());
 			maratonaUpdate.setDataFinal(maratona.getDataFinal());
 			maratonaUpdate.setLimiteParticipantes(maratona.getLimiteParticipantes());
@@ -102,7 +138,7 @@ public class MaratonaService {
 	// Atualizar status para "ABERTA" de uma maratona
 	public Maratona abrir(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
-		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO) {
+		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.ABERTA) {
 			maratona.setStatus(Maratona.StatusMaratona.ABERTA);
 			return maratonaRepository.save(maratona);
 		}
@@ -112,33 +148,75 @@ public class MaratonaService {
 	// Atualizar status para "EM_ANDAMENTO" de uma maratona
 	public Maratona iniciar(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
-		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.ABERTA) {
+		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.EM_ANDAMENTO) {
 			maratona.setStatus(Maratona.StatusMaratona.EM_ANDAMENTO);
 			return maratonaRepository.save(maratona);
 		}
 		return null;  // Retorna null se a maratona já está em andamento ou não existe
 	}
 
-	// Atualizar status para "CONCLUIDA" de uma maratona
+	// Atualizar status para "CONCLUIDA" de uma maratona e enviar e-mail
 	public Maratona concluir(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
-		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.EM_ANDAMENTO) {
+		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.CONCLUIDA) {
 			maratona.setStatus(Maratona.StatusMaratona.CONCLUIDA);
-			return maratonaRepository.save(maratona);
+			Maratona maratonaAtualizada = maratonaRepository.save(maratona);
+
+			// Recuperando informações da empresa criadora
+			Empresa empresa = empresaRepository.findById(maratona.getCriador())
+					.orElseThrow(() -> new EntityNotFoundException("Empresa criadora não encontrada!"));
+
+			// Enviar e-mail ao criador da maratona
+			try {
+				emailService.enviarEmailComTemplate(
+						empresa.getEmail(),
+						"Maratona Concluída com Sucesso!",
+						"templates/empresa-maratona-concluida.html",
+						Map.of(
+								"nomeUsuario", empresa.getUsuario(),
+								"nomeMaratona", maratona.getNome()
+						)
+				);
+			} catch (Exception e) {
+				e.printStackTrace(); // Log da falha no envio de e-mail
+			}
+
+			return maratonaAtualizada;
 		}
-		return null;  // Retorna null se a maratona já está concluida ou não existe
+		return null; // Retorna null se a maratona já está concluída ou não existe
 	}
 
-	// Atualizar status para "CANCELADA" de uma maratona
+	// Atualizar status para "CANCELADA" de uma maratona e enviar e-mail
 	public Maratona cancelar(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
-		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.EM_ANDAMENTO) {
+		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.CANCELADA) {
 			maratona.setStatus(Maratona.StatusMaratona.CANCELADA);
-			return maratonaRepository.save(maratona);
+			Maratona maratonaAtualizada = maratonaRepository.save(maratona);
+
+			// Recuperando informações da empresa criadora
+			Empresa empresa = empresaRepository.findById(maratona.getCriador())
+					.orElseThrow(() -> new EntityNotFoundException("Empresa criadora não encontrada!"));
+
+			// Enviar e-mail ao criador da maratona
+			try {
+				emailService.enviarEmailComTemplate(
+						empresa.getEmail(),
+						"Maratona Cancelada",
+						"templates/empresa-maratona-cancelada.html",
+						Map.of(
+								"nomeUsuario", empresa.getUsuario(),
+								"nomeMaratona", maratona.getNome()
+						)
+				);
+			} catch (Exception e) {
+				e.printStackTrace(); // Log da falha no envio de e-mail
+			}
+
+			return maratonaAtualizada;
 		}
-		return null;  // Retorna null se a maratona já está em andamento ou não existe
+		return null; // Retorna null se a maratona já está em andamento ou não existe
 	}
-	
+
 	//atualizar status da maratona
 	public Maratona updateStatus(Maratona maratona, Integer id) {
 		Maratona maratonaUpdate = maratonaRepository.findById(id).orElse(null);

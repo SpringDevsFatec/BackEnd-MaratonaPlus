@@ -1,9 +1,10 @@
 package com.maratonaApi.controller;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.maratonaApi.dto.MaratonaComEmpresaDTO;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +78,7 @@ public class MaratonaController {
 
     // Insere uma nova maratona
     @PostMapping
-    public Maratona insert(@RequestBody Maratona maratona) {
+    public Maratona insert(@RequestBody Maratona maratona) throws MessagingException, IOException {
         return maratonaService.insert(maratona);
     }
 

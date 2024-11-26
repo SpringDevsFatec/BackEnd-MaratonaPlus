@@ -49,10 +49,10 @@ public class EmpresaService {
 
 		// Envia um email de verificação
 		Map<String, Object> templateModel = new HashMap<>();
-		templateModel.put("nome", novaEmpresa.getNome());
+		templateModel.put("nomeEmpresa", novaEmpresa.getNome());
 
 		try {
-			emailService.enviarEmailComTemplate(novaEmpresa.getEmail(), "Novo Usuário cadastrado", "templates/usuario-cadastrado.html", templateModel);
+			emailService.enviarEmailComTemplate(novaEmpresa.getEmail(), "Nova Empresa cadastrada", "templates/empresa-cadastrada.html", templateModel);
 		} catch (MessagingException | IOException e) {
 			e.printStackTrace();
 		}
