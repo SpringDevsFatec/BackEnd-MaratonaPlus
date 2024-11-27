@@ -10,7 +10,7 @@ import com.maratonaApi.service.RankingService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ranking")
+@RequestMapping("/api/ranking")
 @CrossOrigin(origins = "*/")
 public class RankingController {
 

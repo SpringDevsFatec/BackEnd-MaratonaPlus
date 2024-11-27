@@ -27,5 +27,5 @@ INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, sta
 INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, status) VALUES (1, 4, '2024-11-21T15:56:02.796069', 'Transferência Bancária', 'INSCRITO');
 
 /* Participações */
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00', '2000-02-12 13:30:00', 9000);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'PARTICIPANDO', null, '2024-11-21 19:00:00', null, 0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00','2000-02-12 11:50:00', '2000-02-12 13:30:00', 9000, 22.0, 50.0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (2, 'PARTICIPANDO', null,null, '2024-11-21 19:00:00', null, 0, 22.0, 50.0);
