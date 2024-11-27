@@ -21,7 +21,7 @@ public class RankingController {
 
     // Gera o ranking de uma maratona
     @PostMapping("/maratona/{idMaratona}")
-    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) {
+    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) throws MessagingException, IOException {
         List<Ranking> ranking = rankingService.gerarRankingPorMaratona(idMaratona);
         return ResponseEntity.ok(ranking);
     }

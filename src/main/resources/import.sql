@@ -34,11 +34,11 @@ INSERT INTO inscricao (id_corredor, id_maratona, data_hora, forma_pagamento, sta
 /* Participações */
 INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00','2000-02-12 11:50:00', '2000-02-12 13:30:00', 9000, 22.0, 50.0);
 INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (2, 'PARTICIPANDO', null,null, '2024-11-21 19:00:00', null, 0, 22.0, 50.0);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00', '2000-02-12 13:30:00', 9000);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (3, 'PARTICIPANDO', null, '2024-11-26 15:00:00', null, 0);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (5, 'FINALIZADO', '1:30:00', '2024-11-27 12:00:00', '2000-02-12 13:30:00', 9000);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (6, 'FINALIZADO', '1:35:05', '2024-11-27 12:00:00', '2000-02-12 13:35:05', 9000);
-INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio, tempo_fim, passos) VALUES (7, 'FINALIZADO', '1:36:10', '2024-11-27 12:00:00', '2000-02-12 13:36:10', 9000);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (3, 'PARTICIPANDO', null, '2024-11-26 15:00:00','2024-11-26 14:50:00', null, 0,0.0,0.0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (5, 'FINALIZADO', '1:30:00', '2024-11-27 12:00:00','2024-11-27 11:50:00', '2000-02-12 13:30:00', 9000,30.0, 50.0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (3, 'FINALIZADO', '1:30:00', '2000-02-12 12:00:00','2024-11-27 11:50:00', '2000-02-12 13:30:00', 9000,30.0, 50.0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (6, 'FINALIZADO', '1:35:05', '2024-11-27 12:00:00','2024-11-27 11:50:00', '2000-02-12 13:35:05', 9000,29.0,45.0);
+INSERT INTO participacao (id_inscricao, status_conclusao, tempo_registrado, tempo_inicio,tempo_ingresso, tempo_fim, passos, velocidade_km, velocidade_ms) VALUES (7, 'FINALIZADO', '1:36:10', '2024-11-27 12:00:00','2024-11-27 11:50:00', '2000-02-12 13:36:10', 9000,28.0, 40.0);
 
 /* Ranking */
 INSERT INTO ranking (id_corredor, id_maratona, posicao, tempo_total) VALUES (3, 1, 3, 5600);

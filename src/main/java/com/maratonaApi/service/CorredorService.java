@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.maratonaApi.model.Corredor;
 import com.maratonaApi.model.repository.CorredoresRepository;
 import com.maratonaApi.model.repository.InscricaoRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CorredorService {
@@ -53,6 +56,14 @@ public class CorredorService {
 
 	// Inserir um novo corredor
 	public Corredor insert(Corredor corredor) {
+		// Verifica se o e-mail já está cadastrado
+		Corredor corredorExistente = corredorRepository.findByEmail(corredor.getEmail());
+		if (corredorExistente != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já cadastrado");
+		}
+
+
+		// Salva o novo corredor
 		Corredor novoCorredor = corredorRepository.save(corredor);
 
 		// Envia um email de verificação
@@ -60,13 +71,19 @@ public class CorredorService {
 		templateModel.put("nomeCorredor", novoCorredor.getNome());
 
 		try {
-			emailService.enviarEmailComTemplate(novoCorredor.getEmail(), "Novo Corredor cadastrado", "templates/corredor-cadastrado.html", templateModel);
+			emailService.enviarEmailComTemplate(
+					novoCorredor.getEmail(),
+					"Novo Corredor cadastrado",
+					"templates/corredor-cadastrado.html",
+					templateModel
+			);
 		} catch (MessagingException | IOException e) {
 			e.printStackTrace();
 		}
 
 		return novoCorredor;
 	}
+
 
 	//verifica o login do corredor e retorna seu id se feito com sucesso
 	public Integer verificarLoginCorredorId(String email, String senha) {
