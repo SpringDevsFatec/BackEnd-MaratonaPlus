@@ -141,15 +141,42 @@ public class MaratonaService {
 		return maratonaUpdate; 
 	}
 
-	// Atualizar status para "ABERTA" de uma maratona
+	// Atualizar status para "ABERTA" de uma maratona e enviar e-mail
 	public Maratona abrir(Integer idMaratona) {
 		Maratona maratona = maratonaRepository.findById(idMaratona).orElse(null);
 		if (maratona != null && maratona.getStatus() != Maratona.StatusMaratona.ABERTA) {
 			maratona.setStatus(Maratona.StatusMaratona.ABERTA);
-			return maratonaRepository.save(maratona);
+			Maratona maratonaAtualizada = maratonaRepository.save(maratona);
+
+			// Recuperar corredores inscritos na maratona
+			List<Inscricao> inscricoes = inscricaoRepository.findByIdMaratona(idMaratona);
+
+			for (Inscricao inscricao : inscricoes) {
+				// Recuperar informações do corredor
+				Corredor corredor = corredorRepository.findById(inscricao.getIdCorredor())
+						.orElseThrow(() -> new EntityNotFoundException("Corredor não encontrado!"));
+
+				// Enviar e-mail ao corredor
+				try {
+					emailService.enviarEmailComTemplate(
+							corredor.getEmail(),
+							"Maratona Aberta!",
+							"templates/corredor-maratona-aberta.html",
+							Map.of(
+									"nomeCorredor", corredor.getNome(),
+									"nomeMaratona", maratona.getNome()
+							)
+					);
+				} catch (Exception e) {
+					e.printStackTrace(); // Log da falha no envio de e-mail
+				}
+			}
+
+			return maratonaAtualizada;
 		}
-		return null;  // Retorna null se a maratona já está em andamento ou não existe
+		return null; // Retorna null se a maratona já está aberta ou não existe
 	}
+
 
 	// Atualizar status para "EM_ANDAMENTO" de uma maratona
 	public Maratona iniciar(Integer idMaratona) {
