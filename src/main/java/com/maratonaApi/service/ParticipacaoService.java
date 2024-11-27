@@ -6,7 +6,10 @@ import java.time.Instant;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.time.temporal.ChronoUnit;
 
+
+import com.maratonaApi.util.PassosVelocidade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +61,7 @@ public class ParticipacaoService {
             Participacao participacao = participacaoOptional.get();
             // Definindo o status para "participando" e o tempo de início
             participacao.setStatusConclusao(Participacao.StatusParticipacao.PARTICIPANDO);
-            Timestamp tempoInicio = new Timestamp(System.currentTimeMillis());  // Usando Timestamp aqui
+            Timestamp tempoInicio = Timestamp.from(Instant.now().minus(3, ChronoUnit.HOURS));  // Usando Timestamp aqui
             participacao.setTempoInicio(tempoInicio);
             return participacaoRepository.save(participacao);
         }
@@ -125,14 +128,16 @@ public class ParticipacaoService {
 
     // cadastra nova participacao
     public Participacao insert(Participacao participacao) {
+        participacao.setIdInscricao(participacao.getIdInscricao());
         participacao.setStatusConclusao(Participacao.StatusParticipacao.PARTICIPANDO);
-        participacao.setTempoInicio(Timestamp.from(Instant.now()));
+        participacao.setTempoIngresso(Timestamp.from(Instant.now().minus(3, ChronoUnit.HOURS)));
         return participacaoRepository.save(participacao);
     }
 
     // Atualizar uma participação existente
-    public Participacao update(Participacao participacao, Integer id) {
-        Participacao participacaoUpdate = participacaoRepository.findById(id).orElse(null);
+    public Participacao update(Participacao participacao, Integer idParticipacao) {
+        Participacao participacaoUpdate = participacaoRepository.findById(idParticipacao).orElse(null);
+
         if (participacaoUpdate != null) {
             participacaoUpdate.setIdInscricao(participacao.getIdInscricao());
             participacaoUpdate.setStatusConclusao(participacao.getStatusConclusao());
@@ -140,19 +145,27 @@ public class ParticipacaoService {
             participacaoUpdate.setTempoInicio(participacao.getTempoInicio());
             participacaoUpdate.setTempoFim(participacao.getTempoFim());
             participacaoUpdate.setPassos(participacao.getPassos());
+            participacaoUpdate.setVelocidadeKm(participacao.getVelocidadeKm());
             participacaoRepository.save(participacaoUpdate);
         }
         return participacaoUpdate;
     }
 
     // Atualizar apenas o status de uma participação
-    public Participacao updateStatus(Participacao participacao, Integer id) {
+    public Participacao updateStatus(Participacao participacao, Integer id, Integer Distancia) {
         Participacao participacaoUpdate = participacaoRepository.findById(id).orElse(null);
         if (participacaoUpdate != null) {
+            float velocidadeKm = PassosVelocidade.Calcula_velocidadeKm(participacao.getTempoRegistrado(), Distancia);
+            float velocidadeMs = PassosVelocidade.Calcula_velocidadeMs(participacao.getTempoRegistrado(), Distancia);
+            int passos = PassosVelocidade.calculaPassos(velocidadeMs, Distancia);
+
             participacaoUpdate.setStatusConclusao(participacao.getStatusConclusao());
             participacaoUpdate.setTempoRegistrado(participacao.getTempoRegistrado());
-            participacaoUpdate.setTempoInicio(participacao.getTempoInicio());
-            participacaoUpdate.setTempoFim(participacao.getTempoFim());
+            //participacaoUpdate.setTempoInicio(participacao.getTempoInicio());
+            participacaoUpdate.setTempoFim(Timestamp.from(Instant.now().minus(3, ChronoUnit.HOURS)));
+            participacaoUpdate.setPassos(passos);
+            participacaoUpdate.setVelocidadeKm(velocidadeKm);
+            participacaoUpdate.setVelocidadeMs(velocidadeMs);
             participacaoRepository.save(participacaoUpdate);
         }
         return participacaoUpdate;

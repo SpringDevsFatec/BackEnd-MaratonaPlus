@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ranking")
 @CrossOrigin(origins = "*/")
-
 public class RankingController {
 
     @Autowired
@@ -22,7 +21,7 @@ public class RankingController {
 
     // Gera o ranking de uma maratona
     @PostMapping("/maratona/{idMaratona}")
-    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) throws MessagingException, IOException {
+    public ResponseEntity<List<Ranking>> gerarRanking(@PathVariable int idMaratona) {
         List<Ranking> ranking = rankingService.gerarRankingPorMaratona(idMaratona);
         return ResponseEntity.ok(ranking);
     }

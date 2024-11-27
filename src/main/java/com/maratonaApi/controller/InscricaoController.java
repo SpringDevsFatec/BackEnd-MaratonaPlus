@@ -14,7 +14,6 @@ import com.maratonaApi.service.InscricaoService;
 @RestController
 @RequestMapping("/api/inscricoes")
 @CrossOrigin(origins = "*/")
-
 public class InscricaoController {
 
     @Autowired

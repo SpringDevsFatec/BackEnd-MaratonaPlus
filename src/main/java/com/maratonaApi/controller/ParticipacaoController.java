@@ -73,9 +73,9 @@ public class ParticipacaoController {
     }
 
     // Atualiza apenas o status de uma participação
-    @PutMapping("/status/{id}")
-    public Participacao updateStatus(@RequestBody Participacao participacao, @PathVariable Integer id) {
-        return participacaoService.updateStatus(participacao, id);
+    @PutMapping("/status/{id}/distancia/{distancia}")
+    public Participacao updateStatus(@RequestBody Participacao participacao, @PathVariable Integer id, @PathVariable Integer distancia) {
+        return participacaoService.updateStatus(participacao, id, distancia);
     }
 
     // Iniciar participação: Atualiza o status de inscrição para "participando" e registra o tempo de início
