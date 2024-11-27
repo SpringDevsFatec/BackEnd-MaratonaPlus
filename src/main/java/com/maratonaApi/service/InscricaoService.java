@@ -75,6 +75,13 @@ public class InscricaoService {
 		return savedInscricao;
 	}
 
+	public Integer getIdInscricao(Integer idCorredor, Integer idMaratona) {
+		Inscricao inscricao = inscricaoRepository.findByIdCorredorAndIdMaratona(idCorredor, idMaratona);
+		if (inscricao != null) {
+			return inscricao.getIdInscricao();
+		}
+		return null; // Retorna null se não encontrar nenhuma inscrição
+	}
 
 	// Atualizar uma inscrição existente
 	public Inscricao update(Inscricao inscricao, Integer idInscricao) {
