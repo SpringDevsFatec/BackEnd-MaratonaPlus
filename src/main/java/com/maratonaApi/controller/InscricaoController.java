@@ -34,6 +34,18 @@ public class InscricaoController {
         }
         return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
     }
+
+     // Retorna o ID da inscrição com base no ID do corredor e da maratona
+    @GetMapping("/corredor/{idCorredor}/maratona/{idMaratona}")
+    public ResponseEntity<Integer> getIdInscricao(
+            @PathVariable Integer idCorredor,
+            @PathVariable Integer idMaratona) {
+        Integer idInscricao = inscricaoService.getIdInscricao(idCorredor, idMaratona);
+        if (idInscricao == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(idInscricao);
+    }
     
     // Insere uma nova inscrição no banco
     @PostMapping
