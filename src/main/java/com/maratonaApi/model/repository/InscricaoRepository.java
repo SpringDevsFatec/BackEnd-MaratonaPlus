@@ -41,6 +41,8 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Integer> {
 	// Busca todas as inscrições de uma maratona específica
 	List<Inscricao> findByIdMaratona(Integer idMaratona);
 
+	Inscricao findByIdCorredorAndIdMaratona(Integer idCorredor, Integer idMaratona);
+
 	Optional<Inscricao> findById(int idInscricao);
 
 }
