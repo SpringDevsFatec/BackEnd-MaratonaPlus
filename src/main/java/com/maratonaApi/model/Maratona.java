@@ -62,7 +62,7 @@ public class Maratona {
         this.climaEsperado = climaEsperado;
         this.tipoTerreno = tipoTerreno;
     }
-
+/*
     public int getId() {
         return this.idMaratona;
     }
@@ -76,10 +76,10 @@ public class Maratona {
         return this.status == StatusMaratona.ABERTA_PARA_INSCRICAO || this.status == StatusMaratona.ABERTA;
     }
 
-    // Metodo para verificar se a maratona está em andamento
-    public boolean isEmAndamento() {
-        return this.status == StatusMaratona.EM_ANDAMENTO;
-    }
+    Metodo para verificar se a maratona está em andamento
+  //  public boolean isEmAndamento() {
+    //    return this.status == StatusMaratona.EM_ANDAMENTO;
+   // }
 
     // Metodo para verificar se a maratona está concluída
     public boolean isFinalizada() {
@@ -88,7 +88,7 @@ public class Maratona {
     // Metodo para verificar se a maratona foi cancelada
     public boolean isCancelada() {
         return this.status == StatusMaratona.CANCELADA;
-    }
+    }*/
     // Enum com os status possíveis da maratona
     public enum StatusMaratona {
         ABERTA_PARA_INSCRICAO,
