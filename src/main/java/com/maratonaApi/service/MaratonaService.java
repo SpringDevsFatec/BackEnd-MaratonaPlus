@@ -89,14 +89,14 @@ public class MaratonaService {
 		maratona.setStatus(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO);
 
 		// Validando as datas de início e final
-		if (maratona.getDataInicio().isAfter(maratona.getDataFinal())) {
-			throw new IllegalArgumentException("A data de início não pode ser posterior à data final.");
-		}
+		//if (Boolean.parseBoolean(maratona.getDataInicio().intern())) {
+			//throw new IllegalArgumentException("A data de início não pode ser posterior à data final.");
+		//}
 
 		// Salvando a maratona no banco de dados
 		Maratona savedMaratona = maratonaRepository.save(maratona);
 
-		// Recuperando informações da empresa criadora
+		/* Recuperando informações da empresa criadora
 		Empresa empresa = empresaRepository.findById(maratona.getCriador())
 				.orElseThrow(() -> new EntityNotFoundException("Empresa criadora não encontrada!"));
 
@@ -105,8 +105,8 @@ public class MaratonaService {
 		Map<String, Object> templateModel = Map.of(
 				"nomeUsuario", empresa.getUsuario(),
 				"nomeMaratona", maratona.getNome(),
-				"dataInicio", maratona.getDataInicio().toString(),
-				"dataFinal", maratona.getDataFinal().toString()
+				"dataInicio", maratona.getDataInicio(),
+				"dataFinal", maratona.getDataFinal()
 		);
 
 		// Enviando o e-mail de confirmação para a empresa criadora
@@ -116,6 +116,7 @@ public class MaratonaService {
 				emailTemplatePath,
 				templateModel
 		);
+		*/
 
 		return savedMaratona;
 	}
@@ -126,18 +127,18 @@ public class MaratonaService {
 		if (maratonaUpdate != null) {
 			maratonaUpdate.setNome(maratona.getNome());
 			maratonaUpdate.setLocal(maratona.getLocal());
-			maratonaUpdate.setDataInicio(maratona.getDataInicio());
+			maratonaUpdate.setData_inicio(maratona.getData_inicio());
 			maratonaUpdate.setDescricao(maratona.getDescricao());
-			maratonaUpdate.setDataFinal(maratona.getDataFinal());
-			maratonaUpdate.setLimiteParticipantes(maratona.getLimiteParticipantes());
+			maratonaUpdate.setData_final(maratona.getData_final());
+			maratonaUpdate.setLimite_participantes(maratona.getLimite_participantes());
 			maratonaUpdate.setRegras(maratona.getRegras());
 			maratonaUpdate.setDistancia(maratona.getDistancia());
 			maratonaUpdate.setRegras(maratona.getRegras());
 			maratonaUpdate.setValor(maratona.getValor());
-			maratonaUpdate.setTipoTerreno(maratona.getTipoTerreno());
-			maratonaUpdate.setClimaEsperado(maratona.getClimaEsperado());
+			maratonaUpdate.setTipo_terreno(maratona.getTipo_terreno());
+			maratonaUpdate.setClima_esperado(maratona.getClima_esperado());
 
-			if (maratona.getDataInicio().isAfter(maratona.getDataFinal())) {
+			if (Boolean.parseBoolean(maratona.getData_inicio().intern())) {
 				throw new IllegalArgumentException("A data de início não pode ser após a data final.");
 			}
 			return maratonaRepository.save(maratonaUpdate);

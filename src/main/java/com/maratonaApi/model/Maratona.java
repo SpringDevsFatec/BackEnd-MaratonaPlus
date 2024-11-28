@@ -18,21 +18,21 @@ public class Maratona {
     private String nome;
     private String local;
     @Column(name = "data_inicio")
-    private LocalDate dataInicio;
+    private String data_inicio;
     @Column(name = "data_final")
-    private LocalDate dataFinal;
+    private String data_final;
     @Enumerated(EnumType.STRING)
     private StatusMaratona status;
     private String distancia;
     private String descricao;
     @Column(name = "limite_participantes")
-    private int limiteParticipantes;
+    private int limite_participantes;
     private String regras;
     private float valor;
     @Column(name = "tipo_terreno")
-    private String tipoTerreno;
+    private String tipo_terreno;
     @Column(name = "clima_esperado")
-    private String climaEsperado;
+    private String clima_esperado;
 
     @Override
 	public String toString() {
@@ -46,21 +46,21 @@ public class Maratona {
         this.idMaratona = id;
     }
 
-    public Maratona(int id, int criador, String nome, String local, LocalDate dataInicio, LocalDate dataFinal, StatusMaratona status, String distancia, String descricao, String regras, int limiteParticipantes, float valor, String climaEsperado, String tipoTerreno) {
+    public Maratona(int id, int criador, String nome, String local, String data_inicio, String data_final, StatusMaratona status, String distancia, String descricao, String regras, int limite_participantes, float valor, String clima_esperado, String tipo_terreno) {
         this.idMaratona = id;
         this.criador = criador;
         this.nome = nome;
         this.local = local;
-        this.dataInicio = dataInicio;
-        this.dataFinal = dataFinal;
+        this.data_inicio = data_inicio;
+        this.data_final = data_final;
         this.status = status;
         this.distancia = distancia;
         this.descricao = descricao;
         this.regras = regras;
-        this.limiteParticipantes = limiteParticipantes;
+        this.limite_participantes = limite_participantes;
         this.valor = valor;
-        this.climaEsperado = climaEsperado;
-        this.tipoTerreno = tipoTerreno;
+        this.clima_esperado = clima_esperado;
+        this.tipo_terreno = tipo_terreno;
     }
 /*
     public int getId() {
