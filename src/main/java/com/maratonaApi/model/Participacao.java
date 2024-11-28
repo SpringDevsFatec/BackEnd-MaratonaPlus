@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Setter @Getter
 @Entity
 @Table(name = "participacao")
 public class Participacao {
@@ -13,32 +14,23 @@ public class Participacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_participacao")
 	private int idParticipacao;
-    @Setter @Getter
 	@Column(name = "id_inscricao")
     private int idInscricao;
-    @Setter @Getter
     @Enumerated(EnumType.STRING)
 	@Column(name = "status_conclusao")
     private StatusParticipacao statusConclusao;
-    @Setter @Getter
 	@Column(name = "tempo_registrado")
     private String tempoRegistrado;
-    @Setter @Getter
 	@Column(name = "tempo_inicio")
     private Timestamp tempoInicio;
-    @Setter @Getter
     @Column(name = "tempo_ingresso")
     private Timestamp tempoIngresso;
-    @Setter @Getter
 	@Column(name = "tempo_fim")
     private Timestamp tempoFim;
-    @Setter @Getter
 	@Column(name = "passos")
     private int Passos;
-    @Setter @Getter
     @Column(name = "velocidade_km")
     private float velocidadeKm;
-    @Setter @Getter
     @Column(name = "velocidade_ms")
     private float velocidadeMs;
 
@@ -61,7 +53,7 @@ public class Participacao {
         this.velocidadeKm = velocidadeKm;
         this.velocidadeMs = velocidadeMs;
     }
-
+    /*
     public int getIdParticipacao() {
         return idParticipacao;
     }
@@ -69,6 +61,7 @@ public class Participacao {
     public void setIdParticipacao(int idParticipacao) {
         this.idParticipacao = idParticipacao;
     }
+     */
 
     public enum StatusParticipacao {
         FINALIZADO,

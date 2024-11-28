@@ -46,6 +46,12 @@ public class MaratonaController {
     }
 
     // Retorna maratonas abertas para um corredor específico
+    @GetMapping("/abertas-inscricao-por-corredor/{idCorredor}")
+    public List<Maratona> listAbertasParaInscricaoByCorredor(@PathVariable Integer idCorredor) {
+        return maratonaService.obterAbertasParaInscricaoPorCorredor(idCorredor);
+    }
+
+    // Retorna maratonas abertas para um corredor específico
     @GetMapping("/abertas-por-corredor/{idCorredor}")
     public List<Maratona> listAbertasByCorredor(@PathVariable Integer idCorredor) {
         return maratonaService.obterAbertasPorCorredor(idCorredor);

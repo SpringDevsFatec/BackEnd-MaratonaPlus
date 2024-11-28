@@ -14,9 +14,13 @@ import com.maratonaApi.model.Corredor;
 
 public interface InscricaoRepository extends JpaRepository<Inscricao, Integer> {
 	
-	//Select maratonas com status ABERTA OU ABERTA_PARA_INSCRICAO com base no id do corredor
-	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND (m.status = 'ABERTA' OR m.status = 'ABERTA_PARA_INSCRICAO')")
-    List<Maratona> findMaratonasAbertasByIdCorredor(@Param("idCorredor") int idCorredor);
+	//Select maratonas com status ABERTA_PARA_INSCRICAO com base no id do corredor
+	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND m.status = 'ABERTA_PARA_INSCRICAO'")
+    List<Maratona> findMaratonasAbertasParaInscricaoByIdCorredor(@Param("idCorredor") int idCorredor);
+
+	//Select maratonas com status ABERTA com base no id do corredor
+	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND m.status = 'ABERTA'")
+	List<Maratona> findMaratonasAbertasByIdCorredor(@Param("idCorredor") int idCorredor);
 	
 	//select maratonas com status CONCLUIDA com base no id do corredor
 	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND m.status = 'CONCLUIDA'")

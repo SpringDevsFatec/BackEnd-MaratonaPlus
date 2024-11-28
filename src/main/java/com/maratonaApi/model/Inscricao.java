@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter @Getter
 @Entity
 @Table(name = "inscricao")
 public class Inscricao {
@@ -13,16 +14,12 @@ public class Inscricao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_inscricao")
 	private int idInscricao;
-    @Setter @Getter
 	@Column(name = "id_corredor")
     private int idCorredor;
-    @Setter @Getter
 	@Column(name = "id_maratona")
     private int idMaratona;
-    @Setter @Getter
 	@Column(name = "data_hora")
     private LocalDateTime dataHora;
-    @Setter @Getter
     @Column(name = "forma_pagamento")
     private String formaPagamento;
     @Enumerated(EnumType.STRING)
@@ -45,7 +42,7 @@ public class Inscricao {
     public Inscricao() {
     }
 
-    // Getters e Setters
+    /*
     public int getIdInscricao() {
         return idInscricao;
     }
@@ -61,6 +58,7 @@ public class Inscricao {
     public void setStatus(StatusInscricao status) {
         this.status = status;
     }
+     */
 
     public enum StatusInscricao {
         INSCRITO,

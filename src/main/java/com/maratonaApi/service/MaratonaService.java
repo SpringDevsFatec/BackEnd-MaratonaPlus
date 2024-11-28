@@ -47,6 +47,11 @@ public class MaratonaService {
 		return inscricaoRepository.findMaratonasConcluidasByIdCorredor(idCorredor);
 	}
 
+	//Lista maratonas abertas para inscrição de um determinado corredor
+	public List<Maratona> obterAbertasParaInscricaoPorCorredor(Integer idCorredor) {
+		return inscricaoRepository.findMaratonasAbertasParaInscricaoByIdCorredor(idCorredor);
+	}
+
 	//Lista maratonas abertas de um determinado corredor
 	public List<Maratona> obterAbertasPorCorredor(Integer idCorredor) {
 		return inscricaoRepository.findMaratonasAbertasByIdCorredor(idCorredor);
