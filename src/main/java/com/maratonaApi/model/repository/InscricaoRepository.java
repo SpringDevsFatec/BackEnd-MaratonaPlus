@@ -23,7 +23,7 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Integer> {
 	List<Maratona> findMaratonasAbertasByIdCorredor(@Param("idCorredor") int idCorredor);
 	
 	//select maratonas com status CONCLUIDA com base no id do corredor
-	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND m.status = 'CONCLUIDA'")
+	@Query("SELECT m FROM Maratona m JOIN Inscricao i ON m.idMaratona = i.idMaratona WHERE i.idCorredor = :idCorredor AND (i.status = 'FINALIZADO' OR  i.status = 'DESISTENCIA')")
     List<Maratona> findMaratonasConcluidasByIdCorredor(@Param("idCorredor") int idCorredor);
 	
 	//select corredores pela tabela de inscrição com status "INSCRITO" com base no id da maratona
