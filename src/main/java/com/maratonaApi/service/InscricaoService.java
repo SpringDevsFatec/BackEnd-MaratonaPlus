@@ -121,6 +121,16 @@ public class InscricaoService {
 		return null;  // Retorna null se a inscrição não estiver em status PARTICIPANDO
 	}
 
+    // Atualizar status para "FINALIZADO" de uma inscrição
+    public Inscricao participacaoEmAndamento(Integer idInscricao) {
+        Inscricao inscricao = inscricaoRepository.findById(idInscricao).orElse(null);
+        if (inscricao != null && inscricao.getStatus() == Inscricao.StatusInscricao.INSCRITO) {
+            inscricao.setStatus(Inscricao.StatusInscricao.PARTICIPANDO);
+            return inscricaoRepository.save(inscricao);
+        }
+        return null;  // Retorna null se a inscrição não estiver em status PARTICIPANDO
+    }
+
 	/*/ atualizar o status da inscricao
 	public Inscricao updateStatus(Inscricao inscricao, Integer idInscricao) {
 		Inscricao inscricaoUpdate = inscricaoRepository.findById(idInscricao).orElse(null);

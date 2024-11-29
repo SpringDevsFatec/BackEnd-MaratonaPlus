@@ -84,6 +84,16 @@ public class InscricaoController {
         return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
     }
 
+    // Endpoint para finalizar a participação
+    @PutMapping("/{id}/participar")
+    public ResponseEntity<Inscricao> participar(@PathVariable Integer id) {
+        Inscricao inscricao = inscricaoService.participacaoEmAndamento(id);
+        if (inscricao == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se a inscrição não for encontrada
+        }
+        return ResponseEntity.ok(inscricao);  // Retorna a inscrição com status 200
+    }
+
     /*/ pega corpo da requisição e manada para classe service para atualizar o status
     @PutMapping("/status/{id}")
     public Inscricao updateStatus(@RequestBody Inscricao inscricao, @PathVariable Integer id) {
