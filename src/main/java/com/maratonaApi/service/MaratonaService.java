@@ -89,14 +89,14 @@ public class MaratonaService {
 		maratona.setStatus(Maratona.StatusMaratona.ABERTA_PARA_INSCRICAO);
 
 		// Validando as datas de início e final
-		//if (Boolean.parseBoolean(maratona.getDataInicio().intern())) {
-			//throw new IllegalArgumentException("A data de início não pode ser posterior à data final.");
-		//}
+		if (Boolean.parseBoolean(maratona.getData_inicio().intern())) {
+			throw new IllegalArgumentException("A data de início não pode ser posterior à data final.");
+		}
 
 		// Salvando a maratona no banco de dados
 		Maratona savedMaratona = maratonaRepository.save(maratona);
 
-		/* Recuperando informações da empresa criadora
+		//Recuperando informações da empresa criadora
 		Empresa empresa = empresaRepository.findById(maratona.getCriador())
 				.orElseThrow(() -> new EntityNotFoundException("Empresa criadora não encontrada!"));
 
@@ -105,8 +105,8 @@ public class MaratonaService {
 		Map<String, Object> templateModel = Map.of(
 				"nomeUsuario", empresa.getUsuario(),
 				"nomeMaratona", maratona.getNome(),
-				"dataInicio", maratona.getDataInicio(),
-				"dataFinal", maratona.getDataFinal()
+				"dataInicio", maratona.getData_inicio(),
+				"dataFinal", maratona.getData_final()
 		);
 
 		// Enviando o e-mail de confirmação para a empresa criadora
@@ -116,7 +116,6 @@ public class MaratonaService {
 				emailTemplatePath,
 				templateModel
 		);
-		*/
 
 		return savedMaratona;
 	}
