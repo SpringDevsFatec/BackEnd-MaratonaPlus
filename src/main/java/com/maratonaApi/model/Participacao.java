@@ -1,14 +1,12 @@
 package com.maratonaApi.model;
 
-import java.sql.Time;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.sql.Timestamp;
 
+@Setter @Getter
 @Entity
 @Table(name = "participacao")
 public class Participacao {
@@ -18,16 +16,23 @@ public class Participacao {
 	private int idParticipacao;
 	@Column(name = "id_inscricao")
     private int idInscricao;
+    @Enumerated(EnumType.STRING)
 	@Column(name = "status_conclusao")
-    private String statusConclusao;
+    private StatusParticipacao statusConclusao;
 	@Column(name = "tempo_registrado")
-    private Time tempoRegistrado;
+    private String tempoRegistrado;
 	@Column(name = "tempo_inicio")
-    private Time tempoInicio;
+    private Timestamp tempoInicio;
+    @Column(name = "tempo_ingresso")
+    private Timestamp tempoIngresso;
 	@Column(name = "tempo_fim")
-    private Time tempoFim;
+    private Timestamp tempoFim;
 	@Column(name = "passos")
     private int Passos;
+    @Column(name = "velocidade_km")
+    private float velocidadeKm;
+    @Column(name = "velocidade_ms")
+    private float velocidadeMs;
 
     public Participacao() {
     }
@@ -36,16 +41,19 @@ public class Participacao {
         this.idParticipacao = idParticipacao;
     }
 
-    public Participacao(int idParticipacao, int idInscricao, String statusConclusao, Time tempoRegistrado, Time tempoFim, Time tempoInicio, int passos) {
+    public Participacao(int idParticipacao, int idInscricao, String tempoRegistrado, StatusParticipacao statusConclusao, Timestamp tempoInicio, Timestamp tempoIngresso, Timestamp tempoFim, int passos, float velocidadeKm, float velocidadeMs) {
         this.idParticipacao = idParticipacao;
         this.idInscricao = idInscricao;
-        this.statusConclusao = statusConclusao;
         this.tempoRegistrado = tempoRegistrado;
-        this.tempoFim = tempoFim;
+        this.statusConclusao = statusConclusao;
         this.tempoInicio = tempoInicio;
+        this.tempoIngresso = tempoIngresso;
+        this.tempoFim = tempoFim;
         Passos = passos;
+        this.velocidadeKm = velocidadeKm;
+        this.velocidadeMs = velocidadeMs;
     }
-
+    /*
     public int getIdParticipacao() {
         return idParticipacao;
     }
@@ -53,52 +61,11 @@ public class Participacao {
     public void setIdParticipacao(int idParticipacao) {
         this.idParticipacao = idParticipacao;
     }
+     */
 
-    public int getIdInscricao() {
-        return idInscricao;
-    }
-
-    public void setIdInscricao(int idInscricao) {
-        this.idInscricao = idInscricao;
-    }
-
-    public Time getTempoRegistrado() {
-        return tempoRegistrado;
-    }
-
-    public void setTempoRegistrado(Time tempoRegistrado) {
-        this.tempoRegistrado = tempoRegistrado;
-    }
-
-    public String getStatusConclusao() {
-        return statusConclusao;
-    }
-
-    public void setStatusConclusao(String statusConclusao) {
-        this.statusConclusao = statusConclusao;
-    }
-
-    public Time getTempoInicio() {
-        return tempoInicio;
-    }
-
-    public void setTempoInicio(Time tempoInicio) {
-        this.tempoInicio = tempoInicio;
-    }
-
-    public Time getTempoFim() {
-        return tempoFim;
-    }
-
-    public void setTempoFim(Time tempoFim) {
-        this.tempoFim = tempoFim;
-    }
-
-    public int getPassos() {
-        return Passos;
-    }
-
-    public void setPassos(int passos) {
-        Passos = passos;
+    public enum StatusParticipacao {
+        FINALIZADO,
+        DESISTENCIA,
+        PARTICIPANDO
     }
 }

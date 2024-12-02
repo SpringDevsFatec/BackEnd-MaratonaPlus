@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição!</title>
+    <style>
+        /* Estilos globais */
+        body {
+            font-family: 'Roboto', 'Montserrat', sans-serif;
+            background-color: #F0F0F0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container principal */
+        .email-container {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Cabeçalho */
+        .email-header {
+            background-color: #A3E635;
+            padding: 15px;
+            color: #2E2E2E;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .email-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Corpo do e-mail */
+        .email-body {
+            padding: 20px;
+            line-height: 1.8;
+            color: #000000;
+        }
+
+        .email-body p {
+            margin: 10px 0;
+        }
+
+        /* Links */
+        .email-body a {
+            color: #1A1F71;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .email-body a:hover {
+            text-decoration: underline;
+        }
+
+        /* Rodapé */
+        .email-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #8D8D8D;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Cabeçalho -->
+    <div class="email-header">
+        <h2>Inscrição na Maratona</h2>
+    </div>
+    <!-- Corpo do e-mail -->
+    <div class="email-body">
+        <p>Olá, <strong>{{nomeCorredor}}</strong>,</p>
+        <p>Você foi inscrito com sucesso na maratona {{nomeMaratona}}!</p>
+        <p>Estamos ansiosos para vê-lo na linha de chegada!</p>
+        <p>Se tiver alguma dúvida ou precisar de assistência, não hesite em <a href="{{link_contato}}">nos contatar</a>.</p>
+        <p>Obrigado,</p>
+        <p><strong>Equipe Spring Devs</strong></p>
+    </div>
+    <!-- Rodapé -->
+    <div class="email-footer">
+        <p>© 2024 Spring Devs. Todos os direitos reservados.</p>
+    </div>
+</div>
+</body>
+</html>

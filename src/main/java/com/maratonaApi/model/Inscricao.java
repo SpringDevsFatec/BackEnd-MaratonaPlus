@@ -1,14 +1,12 @@
 package com.maratonaApi.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter @Getter
 @Entity
 @Table(name = "inscricao")
 public class Inscricao {
@@ -21,13 +19,14 @@ public class Inscricao {
 	@Column(name = "id_maratona")
     private int idMaratona;
 	@Column(name = "data_hora")
-    private Date dataHora;
+    private LocalDateTime dataHora;
     @Column(name = "forma_pagamento")
     private String formaPagamento;
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private StatusInscricao status;
 
-    public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, Date dataHora, String status) {
+    public Inscricao(int idInscricao, int idCorredor, int idMaratona, String formaPagamento, LocalDateTime dataHora, StatusInscricao status) {
         this.idInscricao = idInscricao;
         this.idCorredor = idCorredor;
         this.idMaratona = idMaratona;
@@ -43,9 +42,7 @@ public class Inscricao {
     public Inscricao() {
     }
 
-    // Getters e Setters
-
-
+    /*
     public int getIdInscricao() {
         return idInscricao;
     }
@@ -54,43 +51,19 @@ public class Inscricao {
         this.idInscricao = idInscricao;
     }
 
-    public int getIdCorredor() {
-        return idCorredor;
-    }
-
-    public void setIdCorredor(int idCorredor) {
-        this.idCorredor = idCorredor;
-    }
-
-    public int getIdMaratona() {
-        return idMaratona;
-    }
-
-    public void setIdMaratona(int idMaratona) {
-        this.idMaratona = idMaratona;
-    }
-
-    public Date getDataHora() {
-        return dataHora;
-    }
-
-    public void setDataHora(Date dataHora) {
-        this.dataHora = dataHora;
-    }
-
-    public String getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
-    public String getStatus() {
+    public StatusInscricao getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusInscricao status) {
         this.status = status;
+    }
+     */
+
+    public enum StatusInscricao {
+        INSCRITO,
+        PARTICIPANDO,
+        FINALIZADO,
+        DESISTENCIA
     }
 }
